@@ -319,7 +319,9 @@ function footer_cal_read($id, $action){
     $limit = 2;
     $url = 'https://events.ucf.edu/calendar/';
     $str = file_get_contents($url.$id.'/sdes/'.$action.'/feed.json');
-    $json = json_decode($str, true);    
+    $json = json_decode($str, true); 
+
+    die(var_dump($json));   
 
     foreach ($json as $field ) {
         if ($x++ < $limit) {
