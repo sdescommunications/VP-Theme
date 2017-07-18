@@ -1185,7 +1185,7 @@ class News extends CustomPostType {
 				<div class="news-content">
 					<h2 class="news-title">
 						<?php
-							 if(!empty($url)){
+							 if(!empty($url) && strlen($url) > 7){
 							 	echo '<a href="' . $url . '">'. get_the_title() . '</a>';
 							 } else{
 							 	echo get_the_title();
