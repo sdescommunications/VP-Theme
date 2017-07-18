@@ -33,7 +33,7 @@
 				<div class="col-lg-3 col-md-12 offset-lg-1 offset-md-0">
 					<h2 id="contact">Contact Us</h2>
 					<hr />
-					<h3 class="site-title"><?php bloginfo('name'); ?></h3>
+					<h3 class="site-title"><?= str_replace(' | ', '<br />', get_bloginfo('name')) ?></h3>
 					<p>
 						<?= do_shortcode( '[contactblock contactname="main" f="true"]' ) ?>
 					</p>
