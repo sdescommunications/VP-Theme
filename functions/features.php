@@ -317,7 +317,8 @@ add_action( 'new_to_publish', 'spotlight_save_meta_fields' );
 function footer_cal_read($id, $action){
 
     $limit = 2;
-    $str = file_get_contents('https://events.ucf.edu/calendar/'.$id.'/sdes/'.$action.'/feed.json');
+    $url = 'https://events.ucf.edu/calendar/';
+    $str = file_get_contents($url.$id.'/sdes/'.$action.'/feed.json');
     $json = json_decode($str, true);    
 
     foreach ($json as $field ) {
@@ -347,7 +348,7 @@ function footer_cal_read($id, $action){
     ?>
 
     <p>
-        <a class="btn btn-callout float-right" href="http://events.ucf.edu/calendar/<?= $id ?>/sdes/<?= $action ?>/">More Events</a>
+        <a class="btn btn-callout float-right" href="<?= $url.$id ?>/sdes/<?= $action ?>/">More Events</a>
     </p>
 
     <?php
