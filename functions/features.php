@@ -314,4 +314,151 @@ function spotlight_save_meta_fields( $post_id ){
 add_action( 'save_post', 'spotlight_save_meta_fields' );
 add_action( 'new_to_publish', 'spotlight_save_meta_fields' );
 
+function footer_cal_read($id, $action){
+
+    $limit = 2;
+    $str = file_get_contents('http://events.ucf.edu/calendar/'.$id.'/sdes/'.$action.'/feed.json');
+    $json = json_decode($str, true);    
+
+    foreach ($json as $field ) {
+        if ($x++ < $limit) {
+
+            $date = strtotime($field['starts']);
+            
+            ?>
+                <div class="row event">
+                    <div class="col-sm-3 date">
+                        <div class="month"><?= date('M', $date) ?></div>
+                        <div class="day"><?= date('d', $date) ?></div>
+                    </div>
+                    <div class="col-sm-8 description">
+                        <h3 class="event-title"><a href="<?= $field['url'] ?>"><?= substr($field['title'], 0, 17) ?> ...</a></h3>
+                        <h4 class="location"><a href="<?= $field['location_url'] ?>"><?= $field['location'] ?></a></h4>
+                    </div>
+                </div>
+            <?php
+            
+        }else{
+            break;
+        }
+        
+    }
+
+    ?>
+
+    <p>
+        <a class="btn btn-callout float-right" href="http://events.ucf.edu/calendar/<?= $id ?>/sdes/<?= $action ?>/">More Events</a>
+    </p>
+
+    <?php
+}
+
+function shortcode_button_faq(){
+    if(wp_script_is("quicktags"))
+    {
+        ?>
+            <script type="text/javascript">
+                
+                //this function is used to retrieve the selected text from the text editor
+                function getSel()
+                {
+                    var txtarea = document.getElementById("content");
+                    var start = txtarea.selectionStart;
+                    var finish = txtarea.selectionEnd;
+                    return txtarea.value.substring(start, finish);
+                }
+
+                QTags.addButton( 
+                    "faq_shortcode", 
+                    "FAQ", 
+                    callback
+                );
+
+                function callback()
+                {
+
+                	var name = prompt("What Org Group did you want to display?");
+                    name = name.replace(/\s+/g, '-').toLowerCase();
+                    var selected_text = getSel();
+                    QTags.insertContent("[faq-list org_groups='"+  name +"']");
+                }
+            </script>
+        <?php
+    }
+}
+add_action("admin_print_footer_scripts", "shortcode_button_faq");
+
+function shortcode_button_contact(){
+    if(wp_script_is("quicktags"))
+    {
+        ?>
+            <script type="text/javascript">
+                
+                //this function is used to retrieve the selected text from the text editor
+                function getSel()
+                {
+                    var txtarea = document.getElementById("content");
+                    var start = txtarea.selectionStart;
+                    var finish = txtarea.selectionEnd;
+                    return txtarea.value.substring(start, finish);
+                }
+
+                QTags.addButton( 
+                    "contact_shortcode", 
+                    "Contact", 
+                    callback
+                );
+
+                function callback()
+                {
+
+                	var name = prompt("What is the title of the contact you would like to display?");
+                    //name = name.replace(/\s+/g, '-').toLowerCase();
+                    var selected_text = getSel();
+                    QTags.insertContent("[contactblock contactname='"+  name +"']");
+                }
+            </script>
+        <?php
+    }
+}
+add_action("admin_print_footer_scripts", "shortcode_button_contact");
+
+function shortcode_button_iframe(){
+    if(wp_script_is("quicktags"))
+    {
+        ?>
+            <script type="text/javascript">
+                
+                //this function is used to retrieve the selected text from the text editor
+                function getSel()
+                {
+                    var txtarea = document.getElementById("content");
+                    var start = txtarea.selectionStart;
+                    var finish = txtarea.selectionEnd;
+                    return txtarea.value.substring(start, finish);
+                }
+
+                QTags.addButton( 
+                    "iframe_shortcode", 
+                    "IFrame", 
+                    callback
+                );
+
+                function callback()
+                {
+
+                	var url = prompt("What URL? If using YouTube or Vimeo please use the embed URL.");
+                	var width = prompt("What is the width in pixels?");
+                	var height = prompt("What is the height in pixels?");
+
+                    name = name.replace(/\s+/g, '-').toLowerCase();
+                    var selected_text = getSel();
+                    QTags.insertContent("[iframe if_url='" + url + "' if_width='" + width + "' if_height='" + height + "']");
+                }
+            </script>
+        <?php
+    }
+}
+add_action("admin_print_footer_scripts", "shortcode_button_iframe");
+
 ?>

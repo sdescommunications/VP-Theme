@@ -85,7 +85,8 @@ Config::$custom_post_types = array(
 	'Staff',
 	'Department',
 	'News',
-	'FAQ', 
+	'FAQ',
+	'Contact', 
 );
 
 Config::$custom_taxonomies = array(

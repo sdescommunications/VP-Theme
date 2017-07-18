@@ -1,6 +1,6 @@
 <?php get_header();?>
 <div class="container">
-			<h1>About SDES</h1>
+			<h1><?= get_the_title() ?></h1>
 			<hr />
 
 			<section>
