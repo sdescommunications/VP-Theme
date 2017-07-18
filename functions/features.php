@@ -323,7 +323,7 @@ function footer_cal_read($id, $action){
 
 
 		
-    echo '<a href="'$url.$id.'/sdes/'.$action.'/feed.json>test</a>';
+    echo '<a href="' . $url . $id . '/sdes/'. $action . '/feed.json">test</a>';
     
 
     foreach ($json as $field ) {
