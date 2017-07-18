@@ -322,8 +322,10 @@ function footer_cal_read($id, $action){
     $json = json_decode($str, true); 
 
 
-		
-    echo '<a href="' . $url . $id . '/sdes/'. $action . '/feed.json">test</a>';
+	if( ini_get('allow_url_fopen') ) {
+   		echo '<a href="' . $url . $id . '/sdes/'. $action . '/feed.json">test</a>';
+} 	
+    
     
 
     foreach ($json as $field ) {
