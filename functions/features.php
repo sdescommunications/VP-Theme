@@ -318,40 +318,42 @@ function footer_cal_read($id, $action){
 
     $limit = 2;
     $url = 'https://events.ucf.edu/calendar/';
-    $str = file_get_contents($url.$id.'/sdes/'.$action.'/feed.json');
-    $json = json_decode($str, true); 
+    $json = $url.$id.'/sdes/'.$action.'/feed.json';
+   
 
+	$ch = curl_init();
+	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+	curl_setopt($ch, CURLOPT_URL, $json);
+	$result = curl_exec($ch);
+	curl_close($ch);
 
-	if( ini_get('allow_url_fopen') ) {
-   		echo '<a href="' . $url . $id . '/sdes/'. $action . '/feed.json">test</a>';
-} 	
+	$obj = json_decode($result);
+
+	foreach ($obj as $field ) {
+		if ($x++ < $limit) {
+
+			$date = strtotime($field->starts);
+
+			?>
+			<div class="row event">
+				<div class="col-sm-3 date">
+					<div class="month"><?= date('M', $date) ?></div>
+					<div class="day"><?= date('d', $date) ?></div>
+				</div>
+				<div class="col-sm-8 description">
+					<h3 class="event-title"><a href="<?= $field->url ?>"><?= substr($field->title, 0, 17) ?> ...</a></h3>
+					<h4 class="location"><a href="<?= $field->location_url ?>"><?= $field->location ?></a></h4>
+				</div>
+			</div>
+			<?php
+
+		}else{
+			break;
+		}		
+	}
+
     
-    
-
-    foreach ($json as $field ) {
-        if ($x++ < $limit) {
-
-            $date = strtotime($field['starts']);
-            
-            ?>
-                <div class="row event">
-                    <div class="col-sm-3 date">
-                        <div class="month"><?= date('M', $date) ?></div>
-                        <div class="day"><?= date('d', $date) ?></div>
-                    </div>
-                    <div class="col-sm-8 description">
-                        <h3 class="event-title"><a href="<?= $field['url'] ?>"><?= substr($field['title'], 0, 17) ?> ...</a></h3>
-                        <h4 class="location"><a href="<?= $field['location_url'] ?>"><?= $field['location'] ?></a></h4>
-                    </div>
-                </div>
-            <?php
-            
-        }else{
-            break;
-        }
-        
-    }
-
     ?>
 
     <p>
