@@ -318,8 +318,7 @@ function footer_cal_read($id, $action){
 
     $limit = 2;
     $url = 'https://events.ucf.edu/calendar/';
-    $json = $url.$id.'/sdes/'.$action.'/feed.json';
-   
+    $json = $url.$id.'/sdes/'.$action.'/feed.json';   
 
 	$ch = curl_init();
 	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);

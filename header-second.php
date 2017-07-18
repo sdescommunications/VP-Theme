@@ -57,7 +57,7 @@
 		<div class="container">
 			<section class="site-title">			
 				<article>
-					<a href="<?= site_url() ?>" class="float-left"><?php bloginfo('name'); ?><hr /></a>							
+					<a href="<?= site_url() ?>" class="float-left"><?= str_replace(' | ', '<br />', get_bloginfo('name')) ?><hr /></a>							
 				</article>
 				<aside class="text-lg-right">
 					<a class="btn btn-contact" href="#contact"><i class="fa fa-lg fa-comments-o"></i>&emsp;Contact Us</a>

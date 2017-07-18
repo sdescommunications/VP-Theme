@@ -12,9 +12,4 @@ require_once('shortcodes.php');         		# Per theme shortcodes
 require_once('functions/features.php');
 
 
-
-
-
-
-
 ?>
