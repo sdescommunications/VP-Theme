@@ -321,7 +321,10 @@ function footer_cal_read($id, $action){
     $str = file_get_contents($url.$id.'/sdes/'.$action.'/feed.json');
     $json = json_decode($str, true); 
 
-    die(var_dump($json));   
+
+		
+    echo '<a href="'$url.$id.'/sdes/'.$action.'/feed.json>test</a>';
+    
 
     foreach ($json as $field ) {
         if ($x++ < $limit) {
