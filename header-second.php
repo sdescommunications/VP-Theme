@@ -73,7 +73,7 @@
 			</button>
 			
 			<?= wp_nav_menu(array(
-				'menu' => 'header-menu', 
+				'theme_location' => 'header-menu',
 				'menu_class' => 'navbar-nav',
 				'container_class' => 'collapse navbar-collapse',
 				'container_id' => 'navbarSupportedContent',
