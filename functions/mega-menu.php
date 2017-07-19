@@ -52,7 +52,8 @@ class Nav_Menu extends Walker_Nav_Menu {
         
         // Depth-dependent classes.
         $depth_classes = array(
-            ( $depth == 0 ? 'nav-item dropdown menu-large ' : 'dropdown-header col-md-3' ),
+            ( $depth == 0 ? 'nav-item dropdown menu-large ' : null ),
+            ( $depth == 1 ? 'dropdown-header col-md-3' : null),
             //( $depth >=2 ? 'sub-sub-menu-item' : '' ),
             //( $depth % 2 ? 'menu-item-odd' : 'menu-item-even' ),
             //'menu-item-depth-' . $depth
