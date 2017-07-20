@@ -819,7 +819,7 @@ class Staff extends CustomPostType {
 		<div class="staff">
 			<?= $context['thumbnail'] ?>
 			<div class="staff-content">
-				<h3 class="staff-name"><a href="<?= get_permalink($context['Post_ID']) ?>"><?= $context['title'] ?></a></h3>
+				<h3 class="staff-name"><?= $context['title'] ?></h3>
 				<h4 class="staff-title"><?= $context['staff_position_title'] ?></h4>
 				<h5 class="staff-phone"><?= $context['staff_phone'] ?></h5>
 				<h5 class="staff-email">
@@ -938,6 +938,7 @@ class Department extends CustomPostType{
 				$image_url = $image_url[0];
 			}
 
+			$dir_name = get_post_meta( $post_id, $prefix.'directorname', true );
 			$phone = get_post_meta( $post_id, $prefix.'phone', true );
 			$fax = get_post_meta( $post_id, $prefix.'fax', true );
 			$email = get_post_meta( $post_id, $prefix.'email', true );
@@ -952,11 +953,11 @@ class Department extends CustomPostType{
 
 			<div class="row dept" id="<?= $post_id ?>">
 				<div class="col-sm-2">
-					<img src="<?= $image_url ?>" class="img-fluid">
+					<img src="<?= (!empty($image_url) ? $image_url : bloginfo('template_url').'/images/blank.png' ) ?>" class="img-fluid">
 				</div>
 				<div class="col-sm-10">
-					<h2><a href="listing-single"></a></h2>
-					<h3 class="muted"><a href="<?= get_permalink($post_id) ?>"><?= the_title() ?></a></h3>
+					<h2><a href="<?= get_permalink($post_id) ?>"><?= the_title() ?></a></h2>
+					<h3 class="muted"><?= $dir_name ?></h3>
 
 					<table class="table table-hover">
 						<tbody>
@@ -1184,7 +1185,7 @@ class News extends CustomPostType {
 				<div class="news-content">
 					<h2 class="news-title">
 						<?php
-							 if(!empty($url)){
+							 if(!empty($url) && strlen($url) > 7){
 							 	echo '<a href="' . $url . '">'. get_the_title() . '</a>';
 							 } else{
 							 	echo get_the_title();
@@ -1258,92 +1259,168 @@ class FAQ extends CustomPostType {
 	$add_new_item   = 'Add New FAQ',
 	$edit_item      = 'Edit FAQ',
 	$new_item       = 'New FAQ',
+	$public         = true,  // I dunno...leave it true
+	$use_title      = true,  // Title field
+	$use_editor     = true,  // WYSIWYG editor, post content field
+	$use_revisions  = true,  // Revisions on post content and titles
+	$use_thumbnails = false,  // Featured images
+	$use_order      = true, // Wordpress built-in order meta data
+	$use_metabox    = false, // Enable if you have custom fields to display in admin
+	$use_shortcode  = true, // Auto generate a shortcode for the post type
+	                         // (see also objectsToHTML and toHTML methods).
+	$taxonomies     = array( 'org_groups' ),
+	$menu_icon      = 'dashicons-editor-help',
+	$built_in       = false,
+	// Optional default ordering for generic shortcode if not specified by user.
+	$default_orderby = null,
+	$default_order   = null,
+	$sc_interface_fields = array();
+
+	public function shortcode( $attr ) {
+		$prefix = $this->options( 'name' ).'_';
+		$default_attrs = array(
+			'type' => $this->options( 'name' ),
+			);
+		if ( is_array( $attr ) ) {
+			$attr = array_merge( $default_attrs, $attr );
+		} else {
+			$attr = $default_attrs;
+		}
+
+		$args = array( 'classname' => __CLASS__, 'objects_only' => true );
+		$objects = parent::sc_object_list( $attr, $args );			
+
+		$context['objects'] = $objects;
+
+		return static::render_objects_to_html( $context );
+	}
+
+	public function objectsToHTML( $objects, $css_classes ) {
+		if ( count( $objects ) < 1 ) { return (WP_DEBUG) ? '<!-- No objects were provided to objectsToHTML. -->' : '';}
+		$context['objects'] = $objects;
+		return static::render_objects_to_html( $context );
+	}
+
+	protected function render_objects_to_html( $context ) {
+		ob_start();
+
+		?>
+		<div id="accordion" role="tablist" aria-multiselectable="true">
+			<?php foreach ( $context['objects'] as $o ) : ?>
+				<?= static::toHTML( $o ) ?>
+				<div class="hr-blank"></div>
+			<?php endforeach;?>
+		</div>
+		<?php
+
+		return ob_get_clean();
+	}
+
+	public function toHTML( $post_object ) {
+		$context['Post_ID'] = $post_object->ID;
+		$context['title'] = get_the_title( $post_object );
+		$context['content'] = wpautop($post_object->post_content);
+		return static::render_to_html( $context );
+	}
+
+	protected function render_to_html( $context ) {
+		ob_start();
+		?>
+		<div class="card">
+			<div class="card-header" role="tab" id="heading-<?= $context['Post_ID'] ?>">
+				<h5 class="mb-0">
+					<a data-toggle="collapse" data-parent="#accordion" href="#collapse-<?= $context['Post_ID'] ?>" aria-expanded="true" aria-controls="collapse-<?= $context['Post_ID'] ?>">
+						<?= $context['title'] ?> <span class="float-xs-right"><i class="fa fa-angle-double-down"></i></span>
+					</a>
+				</h5>
+			</div>
+			<div id="collapse-<?= $context['Post_ID'] ?>" class="collapse" role="tabpanel" aria-labelledby="heading-<?= $context['Post_ID'] ?>">
+				<div class="card-block">
+					<?= $context['content'] ?>	
+				</div>
+			</div>
+		</div>
+
+		<?php
+
+		return ob_get_clean();
+	}
+}
+
+class Contact extends CustomPostType {
+	public
+	$name           = 'contact',
+	$plural_name    = 'Contact',
+	$singular_name  = 'Contact',
+	$add_new_item   = 'Add New Contact',
+	$edit_item      = 'Edit Contact',
+	$new_item       = 'New Contact',
 		$public         = true,  // I dunno...leave it true
 		$use_title      = true,  // Title field
-		$use_editor     = true,  // WYSIWYG editor, post content field
+		$use_editor     = false,  // WYSIWYG editor, post content field
 		$use_revisions  = true,  // Revisions on post content and titles
 		$use_thumbnails = false,  // Featured images
-		$use_order      = true, // Wordpress built-in order meta data
-		$use_metabox    = false, // Enable if you have custom fields to display in admin
-		$use_shortcode  = true, // Auto generate a shortcode for the post type
+		$use_order      = false, // Wordpress built-in order meta data
+		$use_metabox    = true, // Enable if you have custom fields to display in admin
+		$use_shortcode  = false, // Auto generate a shortcode for the post type
 		                         // (see also objectsToHTML and toHTML methods).
-		$taxonomies     = array( 'org_groups' ),
-		$menu_icon      = 'dashicons-editor-help',
+		$taxonomies     = array(),
+		$menu_icon      = 'dashicons-phone',
 		$built_in       = false,
 		// Optional default ordering for generic shortcode if not specified by user.
 		$default_orderby = null,
 		$default_order   = null,
-		$sc_interface_fields = array();
 
-		public function shortcode( $attr ) {
+		$calculated_columns = array(), // Calculate values within custom_column_echo_data.
+		$sc_interface_fields = null; // Fields for shortcodebase interface (false hides from list, null shows only the default fields).
+		
+		public function fields() {
 			$prefix = $this->options( 'name' ).'_';
-			$default_attrs = array(
-				'type' => $this->options( 'name' ),
+			return array(
+				array(
+					'name' => 'Hours',
+					'descr' => 'ex: Mon-Fri: 8am - 5pm',
+					'id' => $prefix.'Hours',
+					'type' => 'text',
+					),
+				array(
+					'name' => 'Phone',
+					'descr' => '',
+					'id' => $prefix.'phone',
+					'type' => 'text',
+					),
+				array(
+					'name' => 'Fax',
+					'descr' => '',
+					'id' => $prefix.'fax',
+					'type' => 'text',
+					),
+				array(
+					'name' => 'Email',
+					'descr' => '',
+					'id' => $prefix.'email',
+					'type' => 'text',
+					),
+				array(
+					'name' => 'Building',
+					'descr' => '',
+					'id' => $prefix.'building',
+					'type' => 'text',
+					),
+				array(
+					'name' => 'Room Number',
+					'descr' => '',
+					'id' => $prefix.'room',
+					'type' => 'text',
+					),
+				array(
+					'name' => 'UCF Map ID',
+					'descr' => '',
+					'id' => $prefix.'map_id',
+					'type' => 'text',
+					),
 				);
-			if ( is_array( $attr ) ) {
-				$attr = array_merge( $default_attrs, $attr );
-			} else {
-				$attr = $default_attrs;
-			}
-
-			$args = array( 'classname' => __CLASS__, 'objects_only' => true );
-			$objects = parent::sc_object_list( $attr, $args );			
-
-			$context['objects'] = $objects;
-
-			return static::render_objects_to_html( $context );
 		}
-
-		public function objectsToHTML( $objects, $css_classes ) {
-			if ( count( $objects ) < 1 ) { return (WP_DEBUG) ? '<!-- No objects were provided to objectsToHTML. -->' : '';}
-			$context['objects'] = $objects;
-			return static::render_objects_to_html( $context );
-		}
-
-		protected function render_objects_to_html( $context ) {
-			ob_start();
-
-			?>
-			<div id="accordion" role="tablist" aria-multiselectable="true">
-				<?php foreach ( $context['objects'] as $o ) : ?>
-					<?= static::toHTML( $o ) ?>
-					<div class="hr-blank"></div>
-				<?php endforeach;?>
-			</div>
-			<?php
-
-			return ob_get_clean();
-		}
-
-		public function toHTML( $post_object ) {
-			$context['Post_ID'] = $post_object->ID;
-			$context['title'] = get_the_title( $post_object );
-			$context['content'] = wpautop($post_object->post_content);
-			return static::render_to_html( $context );
-		}
-
-		protected function render_to_html( $context ) {
-			ob_start();
-			?>
-			<div class="card">
-				<div class="card-header" role="tab" id="heading-<?= $context['Post_ID'] ?>">
-					<h5 class="mb-0">
-						<a data-toggle="collapse" data-parent="#accordion" href="#collapse-<?= $context['Post_ID'] ?>" aria-expanded="true" aria-controls="collapse-<?= $context['Post_ID'] ?>">
-							<?= $context['title'] ?> <span class="float-xs-right"><i class="fa fa-angle-double-down"></i></span>
-						</a>
-					</h5>
-				</div>
-				<div id="collapse-<?= $context['Post_ID'] ?>" class="collapse" role="tabpanel" aria-labelledby="heading-<?= $context['Post_ID'] ?>">
-					<div class="card-block">
-						<?= $context['content'] ?>	
-					</div>
-				</div>
-			</div>
-
-			<?php
-
-			return ob_get_clean();
-		}
-	}
+}
 
 ?>

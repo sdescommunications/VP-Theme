@@ -8,29 +8,8 @@
 				<div class="col-lg-3 col-md-12">
 					<h2>Upcoming Events</h2>
 					<hr />
-					<div class="row event">
-						<div class="col-sm-3 date">
-							<div class="month">April</div>
-							<div class="day">7</div>
-						</div>
-						<div class="col-sm-8 description">
-							<h3 class="event-title"><a href="http://events.ucf.edu/event/402863/mini-golf/">Mini Golf</a></h3>
-							<h4 class="location"><a href="http://events.ucf.edu/event/402863/mini-golf/">Recreation and Wellness Center</a></h4>
-						</div>
-					</div>
-					<div class="row event">
-						<div class="col-sm-3 date">
-							<div class="month">April</div>
-							<div class="day">8</div>
-						</div>
-						<div class="col-sm-8 description">
-							<h3 class="event-title"><a href="http://events.ucf.edu/event/409031/omgraduation/">OMGraduation!</a></h3>
-							<h4 class="location"><a href="http://events.ucf.edu/event/409031/omgraduation/">Career Services &amp; Experiential Learning</a></h4>
-						</div>
-					</div>
-					<p>
-						<a class="btn btn-callout float-right" href="http://events.ucf.edu/?calendar_id=41&upcoming=upcoming">More Events</a>
-					</p>
+					<?php footer_cal_read('41', 'upcoming'); ?>						
+					
 					<div class="clearfix"></div>
 				</div>
 				<div class="col-lg-4 col-md-12 offset-lg-1 offset-md-0">
@@ -54,13 +33,9 @@
 				<div class="col-lg-3 col-md-12 offset-lg-1 offset-md-0">
 					<h2 id="contact">Contact Us</h2>
 					<hr />
-					<h3 class="site-title"><?php bloginfo('name'); ?></h3>
+					<h3 class="site-title"><?= str_replace(' | ', '<br />', get_bloginfo('name')) ?></h3>
 					<p>
-						<i class="fa fa-fw fa-phone"></i> <a href="tel:4078234625">407-823-4625</a><br />
-						<i class="fa fa-fw fa-envelope"></i> <a href="mailto:sdes@ucf.edu">sdes@ucf.edu</a><br />								
-						<i class="fa fa-fw fa-map-marker"></i> <a href="http://map.ucf.edu/?show=1">Millican Hall 282</a><br />
-						<i class="fa fa-fw fa-facebook-square"></i> <a href="https://www.facebook.com/UCFStudentDevelopmentAndEnrollmentServices">Facebook</a><br />
-						<i class="fa fa-fw fa-twitter"></i> <a href="https://twitter.com/ucf">Twitter</a>
+						<?= do_shortcode( '[contactblock contactname="main" f="true"]' ) ?>
 					</p>
 				</div>
 			</div>
@@ -80,9 +55,9 @@
 					<li class="list-inline-item"><a href="https://www.ucf.edu/internet-privacy-policy/">Internet Privacy Policy</a></li>
 					<li class="list-inline-item"><a href="http://www.ucf.edu/online">Online Degrees</a></li>
 					<li class="list-inline-item"><a href="http://www.ucf.edu/pegasus">Pegasus</a></li>
-					<li class="list-inline-item"><a href="http://policies.ucf.edu" target="_blank" class="external">Policies</a></li>
-					<li class="list-inline-item"><a href="http://regulations.ucf.edu/" target="_blank" class="external">Regulations</a></li>
-					<li class="list-inline-item"><a href="http://today.ucf.edu" target="_blank" class="external">UCF News</a></li>
+					<li class="list-inline-item"><a href="http://policies.ucf.edu" target="_blank" >Policies</a></li>
+					<li class="list-inline-item"><a href="http://regulations.ucf.edu/" target="_blank" >Regulations</a></li>
+					<li class="list-inline-item"><a href="http://today.ucf.edu" target="_blank" >UCF News</a></li>
 				</ul>			
 			</div>
 			<p class="ucf-footer-address text-center">
