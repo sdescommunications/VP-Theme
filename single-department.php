@@ -48,9 +48,9 @@ $youtube 	= get_post_meta( $post->ID, 'dep_youtube', true );
 		<hr>
 		<section>
 			<aside>
-				<?php if(!empty($image_url)){ ?>
-				<img src="<?= $image_url ?>" class="img-fluid">
-				<?php } ?>
+				
+				<img src="<?= (!empty($image_url) ? $image_url : bloginfo('template_url').'/images/blank-large.png' ) ?>" class="img-fluid">
+				
 				<div class="menu mt-3">
 					<div class="menu-header">Contact</div>
 					<table class="table table-hover mt-3">

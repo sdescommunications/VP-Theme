@@ -3,7 +3,7 @@
 
 <?php get_header('second'); the_post();?>
 <section class="container" id="page-not-found">		
-<article class="full-width">
+	<article class="full-width">
 		<h1>Page Not Found</h1>
 		<?php 
 		$page = get_page_by_title('404');

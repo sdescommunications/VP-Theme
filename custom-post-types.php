@@ -953,7 +953,7 @@ class Department extends CustomPostType{
 
 			<div class="row dept" id="<?= $post_id ?>">
 				<div class="col-sm-2">
-					<img src="<?= $image_url ?>" class="img-fluid">
+					<img src="<?= (!empty($image_url) ? $image_url : bloginfo('template_url').'/images/blank.png' ) ?>" class="img-fluid">
 				</div>
 				<div class="col-sm-10">
 					<h2><a href="<?= get_permalink($post_id) ?>"><?= the_title() ?></a></h2>
@@ -1421,6 +1421,6 @@ class Contact extends CustomPostType {
 					),
 				);
 		}
-	}
+}
 
 ?>
