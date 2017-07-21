@@ -918,7 +918,7 @@ class Department extends CustomPostType{
 				'post_type' => array('department'),
 				'orderby' => 'title',
 				'order'   => 'ASC',
-				'posts_per_page' => -1
+				'posts_per_page' => -1,
 				);
 			$object = new WP_Query($args);			
 			
