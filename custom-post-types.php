@@ -918,6 +918,7 @@ class Department extends CustomPostType{
 				'post_type' => array('department'),
 				'orderby' => 'title',
 				'order'   => 'ASC',
+				'posts_per_page' => -1
 				);
 			$object = new WP_Query($args);			
 			
@@ -1025,6 +1026,7 @@ class Department extends CustomPostType{
 				'post_type' => array('department'),
 				'orderby' => 'title',
 				'order'   => 'ASC',
+				'posts_per_page' => -1, 
 				);
 			$object = new WP_Query($args);
 			ob_start();
@@ -1109,7 +1111,7 @@ class News extends CustomPostType {
 
 			$args = array(
 				'post_type' => array('news'),
-				'orderby' => 'title',
+				'orderby' => 'date',
 				'order'   => 'ASC',
 				'posts_per_page' => '3',
 				);
