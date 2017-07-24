@@ -918,7 +918,7 @@ class Department extends CustomPostType{
 				'post_type' => array('department'),
 				'orderby' => 'title',
 				'order'   => 'ASC',
-				'posts_per_page' => -1
+				'posts_per_page' => -1,
 				);
 			$object = new WP_Query($args);			
 			
@@ -1112,7 +1112,7 @@ class News extends CustomPostType {
 			$args = array(
 				'post_type' => array('news'),
 				'orderby' => 'date',
-				'order'   => 'ASC',
+				'order'   => 'DESC',
 				'posts_per_page' => '3',
 				);
 			$object = new WP_Query($args);			
@@ -1158,8 +1158,7 @@ class News extends CustomPostType {
 		public function toHTMLFULL(){
 			$args = array(
 				'post_type' => array('news'),
-				'orderby' => 'title',
-				'order'   => 'ASC',
+				'order'   => 'DESC',
 				);
 			$object = new WP_Query($args);			
 			

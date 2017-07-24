@@ -314,54 +314,6 @@ function spotlight_save_meta_fields( $post_id ){
 add_action( 'save_post', 'spotlight_save_meta_fields' );
 add_action( 'new_to_publish', 'spotlight_save_meta_fields' );
 
-function footer_cal_read($id, $action){
-
-    $limit = 2;
-    $url = 'https://events.ucf.edu/calendar/';
-    $json = $url.$id.'/sdes/'.$action.'/feed.json';   
-
-	$ch = curl_init();
-	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-	curl_setopt($ch, CURLOPT_URL, $json);
-	$result = curl_exec($ch);
-	curl_close($ch);
-
-	$obj = json_decode($result);
-
-	foreach ($obj as $field ) {
-		if ($x++ < $limit) {
-
-			$date = strtotime($field->starts);
-
-			?>
-			<div class="row event">
-				<div class="col-sm-3 date">
-					<div class="month"><?= date('M', $date) ?></div>
-					<div class="day"><?= date('d', $date) ?></div>
-				</div>
-				<div class="col-sm-8 description">
-					<h3 class="event-title"><a href="<?= $field->url ?>"><?= substr($field->title, 0, 17) ?> ...</a></h3>
-					<h4 class="location"><a href="<?= $field->location_url ?>"><?= $field->location ?></a></h4>
-				</div>
-			</div>
-			<?php
-
-		}else{
-			break;
-		}		
-	}
-
-    
-    ?>
-
-    <p>
-        <a class="btn btn-callout float-right" href="<?= $url.$id ?>/sdes/<?= $action ?>/">More Events</a>
-    </p>
-
-    <?php
-}
-
 function shortcode_button_faq(){
     if(wp_script_is("quicktags"))
     {
@@ -469,5 +421,43 @@ function shortcode_button_iframe(){
     }
 }
 add_action("admin_print_footer_scripts", "shortcode_button_iframe");
+
+function shortcode_button_calendar(){
+    if(wp_script_is("quicktags"))
+    {
+        ?>
+            <script type="text/javascript">
+                
+                //this function is used to retrieve the selected text from the text editor
+                function getSel()
+                {
+                    var txtarea = document.getElementById("content");
+                    var start = txtarea.selectionStart;
+                    var finish = txtarea.selectionEnd;
+                    return txtarea.value.substring(start, finish);
+                }
+
+                QTags.addButton( 
+                    "calendar_shortcode", 
+                    "Calendar", 
+                    callback
+                );
+
+                function callback()
+                {
+					var action = 'upcoming';
+                	var calid = prompt("What is calendar ID?");
+                	var count = prompt("How many do you want to display?");               	
+
+                    name = name.replace(/\s+/g, '-').toLowerCase();
+                    var selected_text = getSel();
+                    QTags.insertContent("[calendar cal_id='" + calid + "' action='" + action + "' count='" + count + "']");
+                }
+            </script>
+        <?php
+    }
+}
+add_action("admin_print_footer_scripts", "shortcode_button_calendar");
+
 
 ?>

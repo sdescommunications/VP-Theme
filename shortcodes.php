@@ -7,8 +7,8 @@ function sc_contactblock ($atts) {
 		), $atts));
 	$prefix = 'contact_';
 	$args = array(
-			'post_type' => array('contact'),
-			'title' => $contactname,
+		'post_type' => array('contact'),
+		'title' => $contactname,
 		);
 
 	// The Query
@@ -30,43 +30,43 @@ function sc_contactblock ($atts) {
 		ob_start();
 
 		if(empty($f)){
-		?>
-		<table class="table table-hover mt-3">
-			<tbody>
-				<?php if(!empty($hours)) { ?>
-				<tr>
-					<th scope="row"><i class="fa fa-lg fa-fw fa-clock-o"><span class="sr-only">Hours</span></i></th>
-					<td><?= $hours ?></td>
-				</tr>
-				<?php } ?>
-				<?php if(!empty($phone)) { ?>
-				<tr>
-					<th scope="row"><i class="fa fa-lg fa-fw fa-phone"><span class="sr-only">Phone</span></i></th>
-					<td><a href="tel:<?= $phone ?>"><?= $phone ?></a></td>
-				</tr>
-				<?php } ?>
-				<?php if(!empty($fax)) { ?>
-				<tr>
-					<th scope="row"><i class="fa fa-lg fa-fw fa-fax"><span class="sr-only">Fax</span></i></th>
-					<td><?= $fax ?></td>
-				</tr>
-				<?php } ?>
-				<?php if(!empty($email)) { ?>
-				<tr>
-					<th scope="row"><i class="fa fa-lg fa-fw fa-envelope"><span class="sr-only">Email</span></i></th>
-					<td><a href="mailto:<?= $email ?>"><?= $email ?></a></td>
-				</tr>
-				<?php } ?>
-				<?php if(!empty($building)) { ?>
-				<tr>
-					<th scope="row"><i class="fa fa-lg fa-fw fa-map-marker"><span class="sr-only">Location</span></i></th>
-					<td><a href="http://map.ucf.edu/?show=<?= $map_id ?>" ><?= $building ?>, Room <?= $room_number ?></a></td>
-				</tr>
-				<?php } ?>				
-			</tbody>
-		</table>	
-		
-		<?php 
+			?>
+			<table class="table table-hover mt-3">
+				<tbody>
+					<?php if(!empty($hours)) { ?>
+					<tr>
+						<th scope="row"><i class="fa fa-lg fa-fw fa-clock-o"><span class="sr-only">Hours</span></i></th>
+						<td><?= $hours ?></td>
+					</tr>
+					<?php } ?>
+					<?php if(!empty($phone)) { ?>
+					<tr>
+						<th scope="row"><i class="fa fa-lg fa-fw fa-phone"><span class="sr-only">Phone</span></i></th>
+						<td><a href="tel:<?= $phone ?>"><?= $phone ?></a></td>
+					</tr>
+					<?php } ?>
+					<?php if(!empty($fax)) { ?>
+					<tr>
+						<th scope="row"><i class="fa fa-lg fa-fw fa-fax"><span class="sr-only">Fax</span></i></th>
+						<td><?= $fax ?></td>
+					</tr>
+					<?php } ?>
+					<?php if(!empty($email)) { ?>
+					<tr>
+						<th scope="row"><i class="fa fa-lg fa-fw fa-envelope"><span class="sr-only">Email</span></i></th>
+						<td><a href="mailto:<?= $email ?>"><?= $email ?></a></td>
+					</tr>
+					<?php } ?>
+					<?php if(!empty($building)) { ?>
+					<tr>
+						<th scope="row"><i class="fa fa-lg fa-fw fa-map-marker"><span class="sr-only">Location</span></i></th>
+						<td><a href="http://map.ucf.edu/?show=<?= $map_id ?>" ><?= $building ?>, Room <?= $room_number ?></a></td>
+					</tr>
+					<?php } ?>				
+				</tbody>
+			</table>	
+
+			<?php 
 			return ob_get_clean();
 		}else{
 			echo (!empty($phone)) ? '<i class="fa fa-fw fa-phone"></i> <a href="tel:'.$phone.'">'.$phone.'</a><br />' : null;
@@ -95,18 +95,18 @@ function sc_iframe ($atts) {
 	ob_start();
 	?>
 
-		<?php		
-			if (strpos($if_url, 'youtube') !== false) {
+	<?php		
+	if (strpos($if_url, 'youtube') !== false) {
 		?>
 
-			<iframe src="<?= $if_url ?>" width="<?= '$if_width' ?>" height="<?= $if_height ?>" frameborder="0" scrolling="no" allowfullscreen></iframe>
+		<iframe src="<?= $if_url ?>" width="<?= '$if_width' ?>" height="<?= $if_height ?>" frameborder="0" scrolling="no" allowfullscreen></iframe>
 
 		<?php
-			} else {
+	} else {
 		?>
-			<iframe src="<?= $if_url ?>" width="<?= '$if_width' ?>" height="<?= $if_height ?>" frameborder="0" scrolling="no" ></iframe>
-			<?php
-		}
+		<iframe src="<?= $if_url ?>" width="<?= '$if_width' ?>" height="<?= $if_height ?>" frameborder="0" scrolling="no" ></iframe>
+		<?php
+	}
 	?>
 
 	<?php
@@ -114,5 +114,59 @@ function sc_iframe ($atts) {
 
 }
 add_shortcode('iframe', 'sc_iframe');
+
+function sc_calendar($atts){
+	extract(shortcode_atts(array(
+		'cal_id'=>"",
+		'action' => "",
+		'count' => "",
+		), $atts));
+
+	$limit = $count;
+	$url = 'https://events.ucf.edu/calendar/';
+	$json = $url.$cal_id.'/sdes/'.$action.'/feed.json';   
+
+	$ch = curl_init();
+	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+	curl_setopt($ch, CURLOPT_URL, $json);
+	$result = curl_exec($ch);
+	curl_close($ch);
+
+	$obj = json_decode($result);
+
+	foreach ($obj as $field ) {
+		if ($x++ < $limit) {
+
+			$date = strtotime($field->starts);
+
+			?>
+			<div class="row event">
+				<div class="col-sm-3 date">
+					<div class="month"><?= date('M', $date) ?></div>
+					<div class="day"><?= date('d', $date) ?></div>
+				</div>
+				<div class="col-sm-8 description">
+					<h3 class="event-title"><a href="<?= $field->url ?>"><?= substr($field->title, 0, 17) ?> ...</a></h3>
+					<h4 class="location"><a href="<?= $field->location_url ?>"><?= $field->location ?></a></h4>
+				</div>
+			</div>
+			<?php
+
+		}else{
+			break;
+		}		
+	}
+
+	?>
+
+	<p>
+		<a class="btn btn-callout float-right" href="<?= $url.$cal_id ?>/sdes/<?= $action ?>/">More Events</a>
+	</p>
+
+	<?php
+
+}
+add_shortcode('calendar', 'sc_calendar');
 
 ?>

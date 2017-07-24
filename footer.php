@@ -8,7 +8,7 @@
 				<div class="col-lg-3 col-md-12">
 					<h2>Upcoming Events</h2>
 					<hr />
-					<?php footer_cal_read('41', 'upcoming'); ?>						
+					<?= do_shortcode( '[calendar cal_id="41" action="upcoming" count="2"]' ) ?>				
 					
 					<div class="clearfix"></div>
 				</div>
