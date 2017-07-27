@@ -1158,6 +1158,7 @@ class News extends CustomPostType {
 		public function toHTMLFULL(){
 			$args = array(
 				'post_type' => array('news'),
+				'orderby' => 'date',
 				'order'   => 'DESC',
 				);
 			$object = new WP_Query($args);			

@@ -4,7 +4,13 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title><?= wp_title( '&raquo;', true, 'right' ); bloginfo( 'name' ); ?> - UCF</title>	
+	<title>
+		<?= 
+			wp_title( '&raquo;', true, 'right' );
+			echo " &bull; ";
+			echo str_replace(' | ', ' ', get_bloginfo('name'));
+		?> &bull; UCF
+	</title>	
 
 	<link rel="shortcut icon" href="http://it-dev.sdes.ucf.edu/testing/vp/images/favicon_black.png" />
 	<link rel="apple-touch-icon" href="http://it-dev.sdes.ucf.edu/testing/vp/images/apple-touch-icon.png" />
