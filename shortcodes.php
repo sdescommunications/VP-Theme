@@ -99,12 +99,12 @@ function sc_iframe ($atts) {
 	if (strpos($if_url, 'youtube') !== false) {
 		?>
 
-		<iframe src="<?= $if_url ?>" width="<?= '$if_width' ?>" height="<?= $if_height ?>" frameborder="0" scrolling="no" allowfullscreen></iframe>
+		<iframe src="<?= $if_url ?>" width="<?= $if_width ?>" height="<?= $if_height ?>" frameborder="0" scrolling="no" allowfullscreen></iframe>
 
 		<?php
 	} else {
 		?>
-		<iframe src="<?= $if_url ?>" width="<?= '$if_width' ?>" height="<?= $if_height ?>" frameborder="0" scrolling="no" ></iframe>
+		<iframe src="<?= $if_url ?>" width="<?= $if_width ?>" height="<?= $if_height ?>" frameborder="0" scrolling="no" ></iframe>
 		<?php
 	}
 	?>
