@@ -1105,12 +1105,13 @@ class News extends CustomPostType {
 				);
 		}
 
-		public function toHTMLHOME() {	
+		public function toHTMLHOME($location = null) {	
 
 			$prefix = 'news_';			
 
 			$args = array(
 				'post_type' => array('news'),
+				'tag' => $location, 
 				'orderby' => 'date',
 				'order'   => 'DESC',
 				'posts_per_page' => '3',
@@ -1155,9 +1156,10 @@ class News extends CustomPostType {
 			return ob_get_clean();
 		}
 
-		public function toHTMLFULL(){
+		public function toHTMLFULL($location = null){
 			$args = array(
 				'post_type' => array('news'),
+				'tag' => $location, 
 				'orderby' => 'date',
 				'order'   => 'DESC',
 				);
@@ -1217,9 +1219,10 @@ class News extends CustomPostType {
 			return ob_get_clean();
 		}
 
-		public function toHTMLMENU(){
+		public function toHTMLMENU($location = null){
 			$args = array(
 				'post_type' => array('news'),
+				'tag' => $location, 
 				'orderby' => 'title',
 				'order'   => 'ASC',
 				);

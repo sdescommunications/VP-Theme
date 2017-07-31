@@ -169,4 +169,27 @@ function sc_calendar($atts){
 }
 add_shortcode('calendar', 'sc_calendar');
 
+function sc_menu($atts){
+	extract(shortcode_atts(array(
+		'menu_name' => 'main',
+		'header' => null
+	), $atts));
+	?>
+
+	<div class="menu menu-right">
+		<div class="menu-header">
+			<?= $header ?>
+		</div>
+							
+			<?= wp_nav_menu(array(
+				'menu' => $menu_name,
+				'menu_class' => 'list-group list-unstyled', 
+				'walker' => new Side_Menu(),
+			)) ?>
+	</div>
+
+	<?php
+}
+add_shortcode('menu', 'sc_menu');
+
 ?>
