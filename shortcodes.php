@@ -174,6 +174,8 @@ function sc_menu($atts){
 		'menu_name' => 'main',
 		'header' => null
 	), $atts));
+
+	ob_start();
 	?>
 
 	<div class="menu menu-right">
@@ -189,6 +191,7 @@ function sc_menu($atts){
 	</div>
 
 	<?php
+	return ob_get_clean();
 }
 add_shortcode('menu', 'sc_menu');
 
