@@ -32,10 +32,10 @@ if ( have_posts() ) {
 
 				<section>
 					<aside>
-						<?= News::toHTMLMENU(); ?>
+						<?= News::toHTMLMENU('home'); ?>
 					</aside>
 					<article>
-						<?= News::toHTMLFULL(); ?>
+						<?= News::toHTMLFULL('home'); ?>
 					</article>
 				</section>
 

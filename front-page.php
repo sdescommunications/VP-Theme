@@ -40,7 +40,7 @@
 					<div class="col-lg-8 col-md-12">
 						<h2>In the News</h2>
 						<hr />
-						<?= News::toHTMLHOME() ?>
+						<?= News::toHTMLHOME('home') ?>
 					</div>
 				</div>
 			</div>
