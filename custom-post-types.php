@@ -789,8 +789,7 @@ class Staff extends CustomPostType {
 		<?php endif; ?>
 		<span class="<?= $context['css_classes'] ?>">
 			<?php foreach ( $context['objects'] as $o ) : ?>
-				<?= static::toHTML( $o ) ?>
-				<div class="clearfix"></div>
+				<?= static::toHTML( $o ) ?>				
 			<?php endforeach;?>
 		</span>
 		<?php
