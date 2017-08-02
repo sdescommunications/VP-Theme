@@ -178,14 +178,14 @@ function sc_menu($atts){
 	ob_start();
 	?>
 
-	<div class="menu menu-right">
+	<div class="menu">
 		<div class="menu-header">
 			<?= $header ?>
 		</div>
 							
 			<?= wp_nav_menu(array(
 				'menu' => $menu_name,
-				'menu_class' => 'list-group list-unstyled', 
+				'menu_class' => 'list-group list-unstyled menu-right', 
 				'walker' => new Side_Menu(),
 			)) ?>
 	</div>
