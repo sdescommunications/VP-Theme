@@ -173,7 +173,7 @@ function sc_menu($atts){
 	extract(shortcode_atts(array(
 		'menu_name' => 'main',
 		'header' => null
-	), $atts));
+		), $atts));
 
 	ob_start();
 	?>
@@ -182,17 +182,37 @@ function sc_menu($atts){
 		<div class="menu-header">
 			<?= $header ?>
 		</div>
-							
-			<?= wp_nav_menu(array(
-				'menu' => $menu_name,
-				'menu_class' => 'list-group list-unstyled menu-right', 
-				'walker' => new Side_Menu(),
-			)) ?>
-	</div>
 
-	<?php
-	return ob_get_clean();
+		<?= wp_nav_menu(array(
+			'menu' => $menu_name,
+			'menu_class' => 'list-group list-unstyled menu-right', 
+			'walker' => new Side_Menu(),
+			)) ?>
+		</div>
+
+		<?php
+		return ob_get_clean();
 }
 add_shortcode('menu', 'sc_menu');
+
+function sc_redirect ($atts){
+	extract(shortcode_atts(array(
+		'url' => 'main',
+	), $atts));
+
+	ob_start();
+	?>
+
+	<p>Seems like you have JavaScript turned off please go to <a href="<?= $url ?>"><?= $url ?></a></p> 		
+		
+	<script type="text/javascript">
+		window.location = "<?= $url ?>"
+	</script>;
+
+	<?php
+		return ob_get_clean();
+
+}
+add_shortcode('redirect', 'sc_redirect');
 
 ?>
