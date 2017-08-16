@@ -8,27 +8,39 @@
 		<?= str_replace(' | ', ' ', get_bloginfo('name')) ?> &bull; UCF
 	</title>	
 
-	<link rel="shortcut icon" href="http://it-dev.sdes.ucf.edu/testing/vp/images/favicon_black.png" />
-	<link rel="apple-touch-icon" href="http://it-dev.sdes.ucf.edu/testing/vp/images/apple-touch-icon.png" />
-	<link rel="stylesheet" href="http://it-dev.sdes.ucf.edu/testing/vp/scss/bootstrap.css" />
-	<link rel="stylesheet" href="http://it-dev.sdes.ucf.edu/testing/vp/css/cards.css" media="screen" />
+	<link rel="shortcut icon" href="<?= get_stylesheet_directory_uri() ?>/images/favicon_black.png" />
+	<link rel="apple-touch-icon" href="<?= get_stylesheet_directory_uri() ?>/images/apple-touch-icon.png" />
+	<link rel="stylesheet" href="<?= get_stylesheet_directory_uri() ?>/style.css" />
 
 	<!--[if lt IE 10]>	
-	<link rel="stylesheet" href="css/why.css" media="screen" />
+	<link rel="stylesheet" href="<?= get_stylesheet_directory_uri() ?>/css/why.css" media="screen" />
 	<![endif]-->	
 
-	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-	<script type="text/javascript" id="ucfhb-script" src="https://universityheader.ucf.edu/bar/js/university-header.js"></script>
-	<script src="https://use.fontawesome.com/48342ef48c.js"></script>
+	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+	<script type="text/javascript" id="ucfhb-script" src="//universityheader.ucf.edu/bar/js/university-header.js"></script>
+	<script src="//use.fontawesome.com/48342ef48c.js"></script>
 	
-	<script type="text/javascript" src="http://it-dev.sdes.ucf.edu/testing/vp/js/tether.min.js"></script>
-	<script type="text/javascript" src="http://it-dev.sdes.ucf.edu/testing/vp/js/bootstrap.min.js"></script>	
-	<script type="text/javascript" src="http://it-dev.sdes.ucf.edu/testing/vp/js/smoothscroll.js"></script>
+	<script type="text/javascript" src="<?= get_stylesheet_directory_uri() ?>/js/tether.min.js"></script>
+	<script type="text/javascript" src="<?= get_stylesheet_directory_uri() ?>/js/bootstrap.min.js"></script>	
+	<script type="text/javascript" src="<?= get_stylesheet_directory_uri() ?>/js/smoothscroll.js"></script>
 
 	<!--[if lt IE 10]>
-	<script type="text/javascript" src="js/modernizr-custom.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.1/html5shiv.js"></script>
 	<![endif]-->
+
+	<script type="text/javascript">
+
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-6562360-10']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+
+	</script>
 
 </head>
 <body>
