@@ -1161,6 +1161,7 @@ class News extends CustomPostType {
 				'tag' => $location, 
 				'orderby' => 'date',
 				'order'   => 'DESC',
+				'posts_per_page' => -1,
 				);
 			$object = new WP_Query($args);			
 			
@@ -1222,8 +1223,9 @@ class News extends CustomPostType {
 			$args = array(
 				'post_type' => array('news'),
 				'tag' => $location, 
-				'orderby' => 'title',
-				'order'   => 'ASC',
+				'orderby' => 'date',
+				'order'   => 'DESC',
+				'posts_per_page' => -1,
 				);
 			$object = new WP_Query($args);
 			ob_start();
