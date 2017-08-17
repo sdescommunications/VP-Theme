@@ -985,7 +985,7 @@ class Department extends CustomPostType{
 								<td><a href="<?= $map ?>"><?= $loc ?></a></td>
 							</tr>
 							<?php  } ?>
-							<?php if(!empty($fb)){ ?>
+							<?php if(!empty($purl)){ ?>
 							<tr>
 								<th scope="row"><i class="fa fa-lg fa-fw fa-link"><span class="sr-only">Website</span></i></th>
 								<td><a href="<?= $purl ?>"><?= $purl ?></a></td>
