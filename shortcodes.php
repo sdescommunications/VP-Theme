@@ -215,4 +215,54 @@ function sc_redirect ($atts){
 }
 add_shortcode('redirect', 'sc_redirect');
 
+function sc_caa(){
+	$root = 'https://afia.ucf.edu'; // Marketing Prod
+	$filename = $root . '/student-complaints-and-appeals/';
+
+	// fetch file
+	$opts = array(
+			'http' => array(
+				'method' => 'GET',
+				'timeout' => '15'
+			)
+		);
+	$context = stream_context_create( $opts );
+	$feed = file_get_contents($filename, false, $context );
+
+	
+	if( $feed )
+	{
+		$json = json_decode($feed);
+
+		if($title != $json->title) { 
+			$title = $json->title;
+		}
+
+		//$data->site_css($json->stylesheet, 'screen');
+		$content = $json->content;
+	}
+	else
+	{
+		$content = 'Could not load ' . $filename;
+	}
+
+	ob_start();
+	?>
+
+	<style type="text/css">
+		.container .container{ padding: 0; }
+	</style>
+
+	<div class="row">
+		<div class="col-md-10">
+			<?= $content; ?>
+		</div>
+	</div>
+
+	<?php
+	return ob_get_clean();
+}
+
+add_shortcode('caa', 'sc_caa');
+
 ?>
