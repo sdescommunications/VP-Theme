@@ -227,9 +227,7 @@ function sc_caa(){
     $output = curl_exec($ch);
         
 
-	var_dump($output);
-
-	if( $result )
+	if( $output )
 	{
 		$json = json_decode($output);
 
