@@ -216,23 +216,22 @@ function sc_redirect ($atts){
 add_shortcode('redirect', 'sc_redirect');
 
 function sc_caa(){
-	$root = 'https://afia.ucf.edu'; // Marketing Prod
-	$filename = $root . '/student-complaints-and-appeals/';
+	$url = 'https://apq.ucf.edu/student-complaints-and-appeals/';
 
-	// fetch file
-	$opts = array(
-			'http' => array(
-				'method' => 'GET',
-				'timeout' => '15'
-			)
-		);
-	$context = stream_context_create( $opts );
-	$feed = file_get_contents($filename, false, $context );
+	if (!function_exists('curl_init')){ 
+        die('CURL is not installed!');
+    }
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $output = curl_exec($ch);
+        
 
-	
-	if( $feed )
+	var_dump($output);
+
+	if( $result )
 	{
-		$json = json_decode($feed);
+		$json = json_decode($output);
 
 		if($title != $json->title) { 
 			$title = $json->title;
@@ -244,8 +243,12 @@ function sc_caa(){
 	else
 	{
 		$content = 'Could not load ' . $filename;
+		if(!curl_exec($ch)){
+    		die('Error: "' . curl_error($ch) . '" - Code: ' . curl_errno($ch));
+		}
 	}
-
+	
+	curl_close($ch);
 	ob_start();
 	?>
 
