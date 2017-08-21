@@ -44,8 +44,7 @@
 		})();
 
 	</script>
-
-	<?= wp_head() ?>
+	
 </head>
 <body>
 	<script>
