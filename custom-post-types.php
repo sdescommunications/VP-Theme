@@ -818,13 +818,12 @@ class Staff extends CustomPostType {
 		<div class="staff">
 			<?= $context['thumbnail'] ?>
 			<div class="staff-content">
-				<h3 class="staff-name"><?= $context['title'] ?></h3>
+				<h3 class="staff-name"><a href="<?= get_permalink($context['Post_ID']) ?>"><?= $context['title'] ?></a></h3>
 				<h4 class="staff-title"><?= $context['staff_position_title'] ?></h4>
 				<h5 class="staff-phone"><?= $context['staff_phone'] ?></h5>
 				<h5 class="staff-email">
 					<a href="mailto:<?= $context['staff_email'] ?>"><?= $context['staff_email'] ?></a>
 				</h5>
-				<div class="staff-details"><?= $context['content'] ?></div>
 			</div>
 		</div>
 		<?php
