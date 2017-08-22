@@ -757,36 +757,10 @@ class Staff extends CustomPostType {
 		protected function render_objects_to_html( $context ) {
 			ob_start();
 			?>
-			<?php if ( $context['collapse'] ) : ?>
-				<script type="text/javascript">
-					$(function(){
-						var collapsedSize = 60;
-						$(".staff-details").each(function() {
-							var h = this.scrollHeight;
-							var div = $(this);
-							if (h > 30) {
-								div.css("height", collapsedSize);
-								div.after("<a class=\"staff-more\" href=\"\">[Read More]</a>");
-								var link = div.next();
-								link.click(function(e) {
-									e.stopPropagation();
-									e.preventDefault();
-									if (link.text() != "[Collapse]") {
-										link.text("[Collapse]");
-										div.animate({ "height": h });
-									} else {
-										div.animate({ "height": collapsedSize });
-										link.text("[Read More]");
-									}
-								});
-							}
-						});
-					});
-				</script>
-			<?php endif;
-			if ( $context['header'] ) : ?>
-			<div class="staff-role"><?= $context['header'] ?></div>
-		<?php endif; ?>
+			
+			<?php if ( $context['header'] ) : ?>
+				<div class="staff-role"><?= $context['header'] ?></div>
+			<?php endif; ?>
 		<span class="<?= $context['css_classes'] ?>">
 			<?php foreach ( $context['objects'] as $o ) : ?>
 				<?= static::toHTML( $o ) ?>				
@@ -818,7 +792,13 @@ class Staff extends CustomPostType {
 		<div class="staff">
 			<?= $context['thumbnail'] ?>
 			<div class="staff-content">
-				<h3 class="staff-name"><a href="<?= get_permalink($context['Post_ID']) ?>"><?= $context['title'] ?></a></h3>
+				<h3 class="staff-name">
+					<?php if (!empty($context['content'])) { ?>
+						<a href="<?= get_permalink($context['Post_ID']) ?>"><?= $context['title'] ?></a>
+					<?php } else { ?>
+						<?= $context['title'] ?>
+					<?php } ?>
+				</h3>
 				<h4 class="staff-title"><?= $context['staff_position_title'] ?></h4>
 				<h5 class="staff-phone"><?= $context['staff_phone'] ?></h5>
 				<h5 class="staff-email">
@@ -1008,52 +988,52 @@ class Department extends CustomPostType{
 				</div>
 			</div> 
 
-			<?php endwhile; wp_reset_postdata(); ?>
-			<!-- show pagination here -->
-			<?php else : ?>
-			<!-- show 404 error here -->
-			<?php endif; ?>
+		<?php endwhile; wp_reset_postdata(); ?>
+		<!-- show pagination here -->
+	<?php else : ?>
+		<!-- show 404 error here -->
+	<?php endif; ?>
 
 
-			<?php 
-			return ob_get_clean();
-		}
+	<?php 
+	return ob_get_clean();
+}
 
-		public function toHTMLMENU ( ) {
-			$args = array(
-				'post_type' => array('department'),
-				'orderby' => 'title',
-				'order'   => 'ASC',
-				'posts_per_page' => -1, 
-				);
-			$object = new WP_Query($args);
-			ob_start();
-			?>
+public function toHTMLMENU ( ) {
+	$args = array(
+		'post_type' => array('department'),
+		'orderby' => 'title',
+		'order'   => 'ASC',
+		'posts_per_page' => -1, 
+		);
+	$object = new WP_Query($args);
+	ob_start();
+	?>
 
-			<div class="menu">					
-				<div class="menu-header">
-					Page Navigation
-				</div>
-				<ul class="list-group menu-right list-unstyled">
-
-					<?php
-					if ( $object->have_posts() ) :
-						while ( $object->have_posts() ) : $object->the_post();
-					?>
-					<li><a class="list-group-item" href="#<?= $object->post->ID ?>"><?= the_title() ?></a></li>
-
-					<?php endwhile; wp_reset_postdata(); ?>
-					<!-- show pagination here -->
-					<?php else : ?>
-						<!-- show 404 error here -->
-					<?php endif; ?>
-
-				</ul>
-			</div>
+	<div class="menu">					
+		<div class="menu-header">
+			Page Navigation
+		</div>
+		<ul class="list-group menu-right list-unstyled">
 
 			<?php
-			return ob_get_clean();
-		}
+			if ( $object->have_posts() ) :
+				while ( $object->have_posts() ) : $object->the_post();
+			?>
+			<li><a class="list-group-item" href="#<?= $object->post->ID ?>"><?= the_title() ?></a></li>
+
+		<?php endwhile; wp_reset_postdata(); ?>
+		<!-- show pagination here -->
+	<?php else : ?>
+		<!-- show 404 error here -->
+	<?php endif; ?>
+
+</ul>
+</div>
+
+<?php
+return ob_get_clean();
+}
 }
 
 class News extends CustomPostType {
@@ -1142,118 +1122,118 @@ class News extends CustomPostType {
 				</div>
 			</div>
 
-			<?php endwhile; wp_reset_postdata(); ?>
-			<a class="btn btn-dark float-right mt-3" href="news">More News</a>
-			<!-- show pagination here -->
-			<?php else : ?>
-			<!-- show 404 error here -->
-			<?php endif; ?>
+		<?php endwhile; wp_reset_postdata(); ?>
+		<a class="btn btn-dark float-right mt-3" href="news">More News</a>
+		<!-- show pagination here -->
+	<?php else : ?>
+		<!-- show 404 error here -->
+	<?php endif; ?>
 
 
-			<?php 
-			return ob_get_clean();
-		}
+	<?php 
+	return ob_get_clean();
+}
 
-		public function toHTMLFULL($location = null){
-			$args = array(
-				'post_type' => array('news'),
-				'tag' => $location, 
-				'orderby' => 'date',
-				'order'   => 'DESC',
-				'posts_per_page' => -1,
-				);
-			$object = new WP_Query($args);			
-			
-			$prefix     = 'news_';
+public function toHTMLFULL($location = null){
+	$args = array(
+		'post_type' => array('news'),
+		'tag' => $location, 
+		'orderby' => 'date',
+		'order'   => 'DESC',
+		'posts_per_page' => -1,
+		);
+	$object = new WP_Query($args);			
 
-			ob_start();
-			
-			if ( $object->have_posts() ) :
-				while ( $object->have_posts() ) : $object->the_post();
+	$prefix     = 'news_';
 
-			$image_url 	= has_post_thumbnail( $object->post->ID ) ?
-			wp_get_attachment_image_src( get_post_thumbnail_id( $object->post->ID )) : null;
+	ob_start();
 
-			if ( $image_url ) {
-				$image_url = $image_url[0];
-			}
+	if ( $object->have_posts() ) :
+		while ( $object->have_posts() ) : $object->the_post();
 
-			$strapline = get_post_meta( $object->post->ID, $prefix.'strapline', true );
-			$url = get_post_meta( $object->post->ID, $prefix.'url', true );
+	$image_url 	= has_post_thumbnail( $object->post->ID ) ?
+	wp_get_attachment_image_src( get_post_thumbnail_id( $object->post->ID )) : null;
 
-			?>	
+	if ( $image_url ) {
+		$image_url = $image_url[0];
+	}
 
-			<div class="news" id="<?= $object->post->ID ?>">
-				<img src="<?= $image_url ?>" class="img-fluid">
-				<div class="news-content">
-					<h2 class="news-title">
-						<?php
-							 if(!empty($url) && strlen($url) > 7){
-							 	echo '<a href="' . $url . '">'. get_the_title() . '</a>';
-							 } else{
-							 	echo get_the_title();
-							 }
-						 ?>							
-					</h2>
-					<h3 class="news-strapline"><?= $strapline ?></h3>
-					<p class="datestamp">Posted <?= get_the_date( 'l, F j, Y @ g:i A', $object->post->ID ) ?></p>
-					<div class="news-summary">
-						<?= get_the_excerpt($object->post->ID) ?>					
-						<p><a class="" href="<?= get_permalink() ?>">Read More >></a></p>
-					</div>
-					
-						
-				</div>
+	$strapline = get_post_meta( $object->post->ID, $prefix.'strapline', true );
+	$url = get_post_meta( $object->post->ID, $prefix.'url', true );
+
+	?>	
+
+	<div class="news" id="<?= $object->post->ID ?>">
+		<img src="<?= $image_url ?>" class="img-fluid">
+		<div class="news-content">
+			<h2 class="news-title">
+				<?php
+				if(!empty($url) && strlen($url) > 7){
+					echo '<a href="' . $url . '">'. get_the_title() . '</a>';
+				} else{
+					echo get_the_title();
+				}
+				?>							
+			</h2>
+			<h3 class="news-strapline"><?= $strapline ?></h3>
+			<p class="datestamp">Posted <?= get_the_date( 'l, F j, Y @ g:i A', $object->post->ID ) ?></p>
+			<div class="news-summary">
+				<?= get_the_excerpt($object->post->ID) ?>					
+				<p><a class="" href="<?= get_permalink() ?>">Read More >></a></p>
 			</div>
-			
-
-			<?php endwhile; wp_reset_postdata(); ?>
-			<!-- show pagination here -->
-			<?php else : ?>
-			<!-- show 404 error here -->
-			<?php endif; ?>
 
 
-			<?php 
-			return ob_get_clean();
-		}
+		</div>
+	</div>
 
-		public function toHTMLMENU($location = null){
-			$args = array(
-				'post_type' => array('news'),
-				'tag' => $location, 
-				'orderby' => 'date',
-				'order'   => 'DESC',
-				'posts_per_page' => -1,
-				);
-			$object = new WP_Query($args);
-			ob_start();
-			?>
 
-			<div class="menu">					
-				<div class="menu-header">
-					Page Navigation
-				</div>
-				<ul class="list-group menu-right list-unstyled">
+<?php endwhile; wp_reset_postdata(); ?>
+<!-- show pagination here -->
+<?php else : ?>
+	<!-- show 404 error here -->
+<?php endif; ?>
 
-					<?php
-					if ( $object->have_posts() ) :
-						while ( $object->have_posts() ) : $object->the_post();
-					?>
-					<li><a class="list-group-item" href="#<?= $object->post->ID ?>"><?= the_title() ?></a></li>
 
-					<?php endwhile; wp_reset_postdata(); ?>
-					<!-- show pagination here -->
-					<?php else : ?>
-						<!-- show 404 error here -->
-					<?php endif; ?>
+<?php 
+return ob_get_clean();
+}
 
-				</ul>
-			</div>
+public function toHTMLMENU($location = null){
+	$args = array(
+		'post_type' => array('news'),
+		'tag' => $location, 
+		'orderby' => 'date',
+		'order'   => 'DESC',
+		'posts_per_page' => -1,
+		);
+	$object = new WP_Query($args);
+	ob_start();
+	?>
+
+	<div class="menu">					
+		<div class="menu-header">
+			Page Navigation
+		</div>
+		<ul class="list-group menu-right list-unstyled">
 
 			<?php
-			return ob_get_clean();
-		}
+			if ( $object->have_posts() ) :
+				while ( $object->have_posts() ) : $object->the_post();
+			?>
+			<li><a class="list-group-item" href="#<?= $object->post->ID ?>"><?= the_title() ?></a></li>
+
+		<?php endwhile; wp_reset_postdata(); ?>
+		<!-- show pagination here -->
+	<?php else : ?>
+		<!-- show 404 error here -->
+	<?php endif; ?>
+
+</ul>
+</div>
+
+<?php
+return ob_get_clean();
+}
 }
 
 class FAQ extends CustomPostType {
@@ -1426,6 +1406,6 @@ class Contact extends CustomPostType {
 					),
 				);
 		}
-}
+	}
 
-?>
+	?>
