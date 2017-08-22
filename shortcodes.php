@@ -217,13 +217,12 @@ add_shortcode('redirect', 'sc_redirect');
 
 function sc_caa(){
 	$url = 'https://apq.ucf.edu/student-complaints-and-appeals/';
-	$url2 = 'https://apqumarkcmsqa.smca.ucf.edu/student-complaints-and-appeals/';
 
 	if (!function_exists('curl_init')){ 
         die('CURL is not installed!');
     }
     $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $url2);
+    curl_setopt($ch, CURLOPT_URL, $url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     $output = curl_exec($ch);
         
@@ -236,7 +235,6 @@ function sc_caa(){
 			$title = $json->title;
 		}
 
-		//$data->site_css($json->stylesheet, 'screen');
 		$content = $json->content;
 	}
 	else
