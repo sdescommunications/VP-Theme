@@ -215,4 +215,53 @@ function sc_redirect ($atts){
 }
 add_shortcode('redirect', 'sc_redirect');
 
+function sc_caa(){
+	$url = 'https://apq.ucf.edu/student-complaints-and-appeals/';
+
+	if (!function_exists('curl_init')){ 
+        die('CURL is not installed!');
+    }
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $output = curl_exec($ch);
+        
+
+	if( $output )
+	{
+		$json = json_decode($output);
+
+		if($title != $json->title) { 
+			$title = $json->title;
+		}
+
+		$content = $json->content;
+	}
+	else
+	{
+		$content = 'Could not load ' . $filename;
+		if(!curl_exec($ch)){
+    		die('Error: "' . curl_error($ch) . '" - Code: ' . curl_errno($ch));
+		}
+	}
+	
+	curl_close($ch);
+	ob_start();
+	?>
+
+	<style type="text/css">
+		.container .container{ padding: 0; }
+	</style>
+
+	<div class="row">
+		<div class="col-md-12">
+			<?= $content; ?>
+		</div>
+	</div>
+
+	<?php
+	return ob_get_clean();
+}
+add_shortcode('caa', 'sc_caa');
+
 ?>
