@@ -33,7 +33,7 @@ $email 	= get_post_meta( $post->ID, 'staff_email', true );
 					<div class="staff-details"><?= the_content() ?></div>
 				</div>
 			</div>
-			<a class="btn btn-callout float-right mt-3" href="<?= site_url() ?>/staff">&lt; Back to Staff</a>
+			<a class="btn btn-callout float-right mt-3" href="<?= wp_get_referer() ?>">&lt; Back</a>
 		</article>
 	</section>
 </div>
