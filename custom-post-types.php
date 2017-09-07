@@ -613,7 +613,7 @@ class Alert extends CustomPostType {
 			?>
 			<div class="card card-inverse <?= $context['css_classes'] ?>">
 				<div class="container card-block">
-					<?= (!empty($context['url'])) ? '<a href="<?= $context["url"] ?>' : NULL ?>
+					<?= (!empty($context['url'])) ? '<a href="<?= $context["url"]"' ?>' : NULL ?>
 					<h2><?= $context['title'] ?></h2>
 					<?= $context['message'] ?>
 					<?= (!empty($context['url'])) ? '</a>' : NULL ?>
@@ -990,50 +990,50 @@ class Department extends CustomPostType{
 
 		<?php endwhile; wp_reset_postdata(); ?>
 		<!-- show pagination here -->
-	<?php else : ?>
-		<!-- show 404 error here -->
-	<?php endif; ?>
+		<?php else : ?>
+			<!-- show 404 error here -->
+		<?php endif; ?>
 
 
-	<?php 
-	return ob_get_clean();
-}
+		<?php 
+		return ob_get_clean();
+	}
 
-public function toHTMLMENU ( ) {
-	$args = array(
-		'post_type' => array('department'),
-		'orderby' => 'title',
-		'order'   => 'ASC',
-		'posts_per_page' => -1, 
-		);
-	$object = new WP_Query($args);
-	ob_start();
-	?>
+	public function toHTMLMENU ( ) {
+		$args = array(
+			'post_type' => array('department'),
+			'orderby' => 'title',
+			'order'   => 'ASC',
+			'posts_per_page' => -1, 
+			);
+		$object = new WP_Query($args);
+		ob_start();
+		?>
 
-	<div class="menu">					
-		<div class="menu-header">
-			Page Navigation
+		<div class="menu">					
+			<div class="menu-header">
+				Page Navigation
+			</div>
+			<ul class="list-group menu-right list-unstyled">
+
+				<?php
+				if ( $object->have_posts() ) :
+					while ( $object->have_posts() ) : $object->the_post();
+				?>
+				<li><a class="list-group-item" href="#<?= $object->post->ID ?>"><?= the_title() ?></a></li>
+
+				<?php endwhile; wp_reset_postdata(); ?>
+				<!-- show pagination here -->
+				<?php else : ?>
+					<!-- show 404 error here -->
+				<?php endif; ?>
+
+			</ul>
 		</div>
-		<ul class="list-group menu-right list-unstyled">
 
-			<?php
-			if ( $object->have_posts() ) :
-				while ( $object->have_posts() ) : $object->the_post();
-			?>
-			<li><a class="list-group-item" href="#<?= $object->post->ID ?>"><?= the_title() ?></a></li>
-
-		<?php endwhile; wp_reset_postdata(); ?>
-		<!-- show pagination here -->
-	<?php else : ?>
-		<!-- show 404 error here -->
-	<?php endif; ?>
-
-</ul>
-</div>
-
-<?php
-return ob_get_clean();
-}
+		<?php
+		return ob_get_clean();
+	}
 }
 
 class News extends CustomPostType {
@@ -1186,16 +1186,14 @@ public function toHTMLFULL($location = null){
 		</div>
 	</div>
 
+	<?php endwhile; wp_reset_postdata(); ?>
+	<!-- show pagination here -->
+	<?php else : ?>
+		<!-- show 404 error here -->
+	<?php endif; ?>
 
-<?php endwhile; wp_reset_postdata(); ?>
-<!-- show pagination here -->
-<?php else : ?>
-	<!-- show 404 error here -->
-<?php endif; ?>
-
-
-<?php 
-return ob_get_clean();
+	<?php 
+	return ob_get_clean();
 }
 
 public function toHTMLMENU($location = null){
