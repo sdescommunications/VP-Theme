@@ -22,6 +22,7 @@ abstract class CustomPostType{
 		$use_shortcode  = False, # Auto generate a shortcode for the post type
 		                         # (see also objectsToHTML and toHTML methods)
 		$taxonomies     = array('post_tag'),
+		$menu_icon      = null,
 		$built_in       = False,
 
 		# Optional default ordering for generic shortcode if not specified by user.
@@ -174,6 +175,7 @@ abstract class CustomPostType{
 			'supports'   => $this->supports(),
 			'public'     => $this->options('public'),
 			'taxonomies' => $this->options('taxonomies'),
+			'menu_icon'  => $this->options('menu_icon'),
 			'_builtin'   => $this->options('built_in')
 			);
 
@@ -613,7 +615,7 @@ class Alert extends CustomPostType {
 			?>
 			<div class="card card-inverse <?= $context['css_classes'] ?>">
 				<div class="container card-block">
-					<?= (!empty($context['url'])) ? '<a href="<?= $context["url"]"' ?>' : NULL ?>
+					<?= (!empty($context['url'])) ? '<a href="<?= $context["url"] ?>"' : NULL ?>
 					<h2><?= $context['title'] ?></h2>
 					<?= $context['message'] ?>
 					<?= (!empty($context['url'])) ? '</a>' : NULL ?>
@@ -834,6 +836,7 @@ class Department extends CustomPostType{
 		$use_shortcode  = False, # Auto generate a shortcode for the post type
 		                         # (see also objectsToHTML and toHTML methods)
 		$taxonomies     = array(''),
+		$menu_icon      = 'dashicons-admin-multisite',
 		$built_in       = false,
 
 		# Optional default ordering for generic shortcode if not specified by user.
