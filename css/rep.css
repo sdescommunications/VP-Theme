@@ -1,0 +1,23 @@
+		.jumbotron-concierge {
+			background: url('../images/rep.jpg'); 
+			background-size: cover;
+		}
+		.lead-concierge {
+			color: #ffffff; 
+			font-family: 'gotham_lightregular', sans-serif;
+		}
+		.display-concierge{
+			color: #ffffff;
+		}
+		.form-control-lg{
+			border:none;
+		}
+		.btn-concierge {
+			background:#ffcc00; 
+			border-top-right-radius: 5px !important; 
+			border-bottom-right-radius: 5px !important;
+		}
+		.btn-concierge:hover{
+			background: #000000;
+			color: #ffcc00;
+		}

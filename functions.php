@@ -10,6 +10,8 @@ require_once('shortcodes.php');         		# Per theme shortcodes
 //Add theme-specific functions here.
 
 require_once('functions/features.php');
+require_once('functions/template-options.php');
+require_once('functions/template-rep-spotlight.php');
 
 
 ?>
