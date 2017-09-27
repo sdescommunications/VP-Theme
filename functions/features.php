@@ -309,7 +309,6 @@ function spotlight_save_meta_fields( $post_id ){
 		update_post_meta($post_id, "spotlight_button_text".$var, $_POST["spotlight_button_text".$var]);
 		update_post_meta($post_id, "spotlight_button_url".$var, $_POST["spotlight_button_url".$var]);
 	}
-
 }
 add_action( 'save_post', 'spotlight_save_meta_fields' );
 add_action( 'new_to_publish', 'spotlight_save_meta_fields' );
