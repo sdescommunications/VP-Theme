@@ -18,15 +18,15 @@ get_header('rep');
 the_post();
 ?>
 <script type="text/javascript">
-function search(){
-    var response = document.getElementById('url').value;
-    
-    if (response != '') {
-    	location = '//www.ucf.edu/services/?q=' + response;
-    }else{
-    	location = '//www.ucf.edu/services/';
-    }    
-}
+	function search(){
+	    var response = document.getElementById('url').value;
+	    
+	    if (response != '') {
+	    	location = '//www.ucf.edu/services/?q=' + response;
+	    }else{
+	    	location = '//www.ucf.edu/services/';
+	    }    
+	}
 </script>
 <div class="container">
 	<h1><?= the_title() ?></h1>

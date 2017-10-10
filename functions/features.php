@@ -216,6 +216,8 @@ function department_save_meta_fields( $post_id ) {
 add_action( 'save_post', 'department_save_meta_fields' );
 add_action( 'new_to_publish', 'department_save_meta_fields' );
 
+
+
 function add_metabox_spotlight(){
 	global $post;
    	$frontpage_id = get_option('page_on_front');
@@ -312,6 +314,8 @@ function spotlight_save_meta_fields( $post_id ){
 }
 add_action( 'save_post', 'spotlight_save_meta_fields' );
 add_action( 'new_to_publish', 'spotlight_save_meta_fields' );
+
+
 
 function shortcode_button_faq(){
     if(wp_script_is("quicktags"))

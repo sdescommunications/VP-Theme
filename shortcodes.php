@@ -2,30 +2,28 @@
 
 function sc_contactblock ($atts) {
 	extract(shortcode_atts(array(
-		'contactname' => 'main',
-		'f' => null,
+		'contactname'	=> 'main',
+		'f' 			=> null,
 		), $atts));
 	$prefix = 'contact_';
 	$args = array(
-		'post_type' => array('contact'),
-		'title' => $contactname,
+		'post_type' 	=> array('contact'),
+		'title'	 		=> $contactname,
 		);
 
 	// The Query
 	$the_query = new WP_Query( $args );
 
-	//die(var_dump($the_query));
-
 	// The Loop
 	if ( $the_query->have_posts() ) {
 		
-		$hours = get_post_meta( $the_query->post->ID, $prefix.'Hours', true );
-		$phone = get_post_meta( $the_query->post->ID, $prefix.'phone', true );
-		$fax = get_post_meta( $the_query->post->ID, $prefix.'fax', true );
-		$email = get_post_meta( $the_query->post->ID, $prefix.'email', true );
-		$building = get_post_meta( $the_query->post->ID, $prefix.'building', true );
-		$room_number = get_post_meta( $the_query->post->ID, $prefix.'room', true );
-		$map_id = get_post_meta( $the_query->post->ID, $prefix.'map_id', true );
+		$Hours 			= get_post_meta( $the_query->post->ID, $prefix.'Hours', true );
+		$phone 			= get_post_meta( $the_query->post->ID, $prefix.'phone', true );
+		$fax 			= get_post_meta( $the_query->post->ID, $prefix.'fax', true );
+		$email 			= get_post_meta( $the_query->post->ID, $prefix.'email', true );
+		$building 		= get_post_meta( $the_query->post->ID, $prefix.'building', true );
+		$room_number 	= get_post_meta( $the_query->post->ID, $prefix.'room', true );
+		$map_id 		= get_post_meta( $the_query->post->ID, $prefix.'map_id', true );
 
 		ob_start();
 
@@ -72,9 +70,7 @@ function sc_contactblock ($atts) {
 			echo (!empty($phone)) ? '<i class="fa fa-fw fa-phone"></i> <a href="tel:'.$phone.'">'.$phone.'</a><br />' : null;
 			echo (!empty($email)) ? '<i class="fa fa-fw fa-envelope"></i> <a href="mailto:'.$email.'">'.$email.'</a><br />' : null;
 			echo (!empty($building)) ? '<i class="fa fa-fw fa-map-marker"></i> <a href="http://map.ucf.edu/?show='.$map_id.'">'.$building.'</a><br />' : null;
-		}
-
-		
+		}		
 		
 		/* Restore original Post Data */
 		wp_reset_postdata();
@@ -87,9 +83,9 @@ add_shortcode('contactblock', 'sc_contactblock');
 
 function sc_iframe ($atts) {
 	extract(shortcode_atts(array(
-		'if_url'=>"",
-		'if_width'=>"",
-		'if_height'=>"",
+		'if_url'	=> "",
+		'if_width'	=> "",
+		'if_height'	=> "",
 		), $atts));
 
 	ob_start();
@@ -117,14 +113,14 @@ add_shortcode('iframe', 'sc_iframe');
 
 function sc_calendar($atts){
 	extract(shortcode_atts(array(
-		'cal_id'=>"",
-		'action' => "",
-		'count' => "",
+		'cal_id'	=> "",
+		'action' 	=> "",
+		'count' 	=> "",
 		), $atts));
 
-	$limit = $count;
-	$url = 'https://events.ucf.edu/calendar/';
-	$json = $url.$cal_id.'/sdes/'.$action.'/feed.json';   
+	$limit 	= $count;
+	$url 	= 'https://events.ucf.edu/calendar/';
+	$json 	= $url.$cal_id.'/sdes/'.$action.'/feed.json';   
 
 	$ch = curl_init();
 	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
@@ -172,7 +168,7 @@ add_shortcode('calendar', 'sc_calendar');
 function sc_menu($atts){
 	extract(shortcode_atts(array(
 		'menu_name' => 'main',
-		'header' => null
+		'header' 	=> null
 		), $atts));
 
 	ob_start();
