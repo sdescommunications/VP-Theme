@@ -241,7 +241,7 @@ function display_events( $header='h2' ) {
 	$options = get_option( THEME_OPTIONS_NAME );
 	$count   = $options['events_max_items'];
 	$events  = get_events( 0, ( $count ) ? $count : 3 );
-?>
+	?>
 	<?php if ( count( $events ) ):?>
 		<<?php echo $header; ?>><a href="<?php echo $events[0]->get_feed()->get_link(); ?>"><?php echo $events[0]->get_feed()->get_title(); ?></a></<?php echo $header; ?>>
 		<table class="events">
@@ -264,7 +264,7 @@ function display_events( $header='h2' ) {
 	<?php else: ?>
 		<p>No events found.</p>
 	<?php endif; ?>
-<?php
+	<?php
 }
 
 
@@ -272,7 +272,7 @@ function display_news( $header='h2' ) {
 	$options = get_option( THEME_OPTIONS_NAME );
 	$count   = $options['news_max_items'];
 	$news    = get_news( 0, ( $count ) ? $count : 2 );
-?>
+	?>
 	<?php if ( count( $news ) ): ?>
 		<<?php echo $header; ?>><a href="<?php echo $news[0]->get_feed()->get_link(); ?>"><?php echo $news[0]->get_feed()->get_title(); ?></a></<?php echo $header; ?>>
 		<ul class="news">
@@ -295,7 +295,7 @@ function display_news( $header='h2' ) {
 	<?php else: ?>
 		<p>No news stories found.</p>
 	<?php endif; ?>
-<?php
+	<?php
 }
 
 

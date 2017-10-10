@@ -86,7 +86,8 @@ Config::$custom_post_types = array(
 	'Department',
 	'News',
 	'FAQ',
-	'Contact', 
+	'Contact',
+	'Publication', 
 );
 
 Config::$custom_taxonomies = array(

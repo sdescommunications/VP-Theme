@@ -8,9 +8,9 @@ if ( $image_url ) {
 	$image_url = $image_url[0];
 }
 
-$position		= get_post_meta( $post->ID, 'staff_position_title', true);
-$phone 	= get_post_meta( $post->ID, 'staff_phone', true );
-$email 	= get_post_meta( $post->ID, 'staff_email', true );
+$position 	= get_post_meta( $post->ID, 'staff_position_title', true);
+$phone 		= get_post_meta( $post->ID, 'staff_phone', true );
+$email 		= get_post_meta( $post->ID, 'staff_email', true );
 
 ?>
 <div class="container">

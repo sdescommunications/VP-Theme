@@ -1,10 +1,10 @@
 (function($){
 $(document).ready(function() {
 
-    var $page_template = $('#page_template'),
-        $side = $('#page_metabox'),
-        $rep = $('#rep-meta-box'),
-        $image = $('#postimagediv');
+    var $page_template  = $('#page_template'),
+        $side           = $('#page_metabox'),
+        $rep            = $('#rep-meta-box'),
+        $image          = $('#postimagediv');
 
     $page_template.change(function() {
         if ($(this).val() == 'template-two-column.php') {
