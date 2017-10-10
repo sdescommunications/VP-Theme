@@ -1406,4 +1406,123 @@ class Contact extends CustomPostType {
 		}
 }
 
+class Publication extends CustomPostType {
+	public
+	$name           = 'publication',
+	$plural_name    = 'Publications',
+	$singular_name  = 'Publication',
+	$add_new_item   = 'Add New Publication',
+	$edit_item      = 'Edit Publication',
+	$new_item       = 'New Publication',
+		$public         = true,  // I dunno...leave it true
+		$use_title      = true,  // Title field
+		$use_editor     = true,  // WYSIWYG editor, post content field
+		$use_revisions  = true,  // Revisions on post content and titles
+		$use_thumbnails = true,  // Featured images
+		$use_order      = true, // Wordpress built-in order meta data
+		$use_metabox    = true, // Enable if you have custom fields to display in admin
+		$use_shortcode  = true, // Auto generate a shortcode for the post type
+		                         // (see also objectsToHTML and toHTML methods).
+		$taxonomies     = array( 'post_tag', 'categories' ),
+		$menu_icon      = 'dashicons-analytics',
+		$built_in       = false,
+		// Optional default ordering for generic shortcode if not specified by user.
+		$default_orderby = post_date,
+		$default_order   = DESC,
+		// Interface Columns/Fields
+		// $calculated_columns = array(),
+		$sc_interface_fields = array();
+
+		public function fields() {
+			$prefix = $this->options( 'name' ).'_';
+			return array(
+				array(
+					'name' => 'URL',
+					'descr' => '',
+					'id' => $prefix.'url',
+					'type' => 'text',
+					'default' => 'http://',
+					),
+				
+				);
+		}
+
+		public function shortcode( $attr ) {
+		$prefix = $this->options( 'name' ).'_';
+		$default_attrs = array(
+			'type' => $this->options( 'name' ),
+			);
+		if ( is_array( $attr ) ) {
+			$attr = array_merge( $default_attrs, $attr );
+		} else {
+			$attr = $default_attrs;
+		}
+
+		$args = array( 'classname' => __CLASS__, 'objects_only' => true );
+		$objects = parent::sc_object_list( $attr, $args );			
+
+		$context['objects'] = $objects;
+
+		return static::render_objects_to_html( $context );
+	}
+
+	public function objectsToHTML( $objects, $css_classes ) {
+		if ( count( $objects ) < 1 ) { return (WP_DEBUG) ? '<!-- No objects were provided to objectsToHTML. -->' : '';}
+		$context['objects'] = $objects;
+		return static::render_objects_to_html( $context );
+	}
+
+	protected function render_objects_to_html( $context ) {
+		ob_start();
+
+		?>
+			<div class="card-deck mb-3">
+				<?php 
+					$i = 1;
+
+					foreach ( $context['objects'] as $o ){
+						echo static::toHTML( $o ).($i % 4 == 0 ? '</div><div class="card-deck mb-3">' : '');
+						$i++;
+					} 
+				?>
+			</div>
+		<?php
+
+		return ob_get_clean();
+	}
+
+	public function toHTML( $post_object ) {
+		$context['Post_ID'] = $post_object->ID;
+		$context['title'] = get_the_title( $post_object );
+		$context['thumbnail'] = get_the_post_thumbnail( $post_object, null, array('class' => 'card-img-top img-fluid') );
+		$context['content'] = wpautop($post_object->post_content);
+		$context['date'] = get_the_date( 'F j, Y', $object->post->ID );
+		$context['url'] = get_post_meta( $post_object->ID, 'publication_url', true );
+		return static::render_to_html( $context );
+	}
+
+	protected function render_to_html( $context ) {
+		ob_start();
+		?>
+
+		<div class="card" style="width: 22%; flex-wrap: wrap; flex: initial;">
+			<a href="<?= $context['url'] ?>"><?= $context['thumbnail'] ?></a>
+			<div class="card-block">
+				<h3 class="card-title"><?= $context['title'] ?></h3>
+				<hr />
+				<p class="card-text">Posted <?= $context['date'] ?></p>
+				<p class="card-text">
+					<?= $context['content'] ?>
+				</p>				
+			</div>
+			<a class="btn btn-callout btn-block" href="<?= $context['url'] ?>">Read on Issuu</a>		
+		</div>
+
+
+		<?php
+
+		return ob_get_clean();
+	}
+}
+
 ?>
