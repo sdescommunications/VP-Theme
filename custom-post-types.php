@@ -1476,7 +1476,7 @@ class Publication extends CustomPostType {
 		ob_start();
 
 		?>
-			<div class="card-deck mb-3">
+			<div class="card-deck">
 				<?php 
 					$i = 1;
 
@@ -1505,12 +1505,12 @@ class Publication extends CustomPostType {
 		ob_start();
 		?>
 
-		<div class="card" style="width: 22%; flex-wrap: wrap; flex: initial;">
-			<a href="<?= $context['url'] ?>"><?= $context['thumbnail'] ?></a>
+		<div class="card pub mb-3">
+			<a href="<?= $context['url'] ?>" class="text-center"><?= $context['thumbnail'] ?></a>
 			<div class="card-block">
 				<h3 class="card-title"><?= $context['title'] ?></h3>
 				<hr />
-				<p class="card-text">Posted <?= $context['date'] ?></p>
+				<p class="card-text date">Posted <?= $context['date'] ?></p>
 				<p class="card-text">
 					<?= $context['content'] ?>
 				</p>				

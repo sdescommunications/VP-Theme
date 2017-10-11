@@ -1,0 +1,36 @@
+/* Styles Specific to the Publication Post Type */
+
+
+@media (min-width: 1200px) {
+	.pub {
+		width: 22% !important;
+		flex-wrap: wrap !important; 
+		flex: initial !important;
+	}
+}
+
+@media (max-width: 1200px) {
+	.pub {
+		width: 45% !important;
+		margin-left:0 !important;
+		flex-wrap: wrap !important; 
+		flex: initial !important;
+	}
+}
+
+@media (max-width: 768px) {
+	.pub {
+		width: 65% !important;
+		margin: 0 auto !important;
+		margin-bottom: 20px !important;
+		flex-wrap: wrap !important; 
+		flex: initial !important;
+	}
+}
+
+.date {
+	font-family: "archer_mediumregular", Georgia, sans-serif !important;
+	font-style: italic;
+	color: #636c72;
+	font-size: 10pt;
+}
