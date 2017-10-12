@@ -462,6 +462,100 @@ function shortcode_button_calendar(){
 }
 add_action("admin_print_footer_scripts", "shortcode_button_calendar");
 
+function shortcode_button_publication(){
+    if(wp_script_is("quicktags"))
+    {
+        ?>
+            <script type="text/javascript">
+                
+                QTags.addButton( 
+                    "publication_shortcode", 
+                    "Publication List", 
+                    callback
+                );
+
+                function callback()
+                {
+
+                    QTags.insertContent("[publication-list]");
+                }
+            </script>
+        <?php
+    }
+}
+add_action("admin_print_footer_scripts", "shortcode_button_publication");
+
+function shortcode_button_menu(){
+    if(wp_script_is("quicktags"))
+    {
+        ?>
+            <script type="text/javascript">
+                
+                //this function is used to retrieve the selected text from the text editor
+                function getSel()
+                {
+                    var txtarea = document.getElementById("content");
+                    var start = txtarea.selectionStart;
+                    var finish = txtarea.selectionEnd;
+                    return txtarea.value.substring(start, finish);
+                }
+
+                QTags.addButton( 
+                    "menu_shortcode", 
+                    "Menu Panel", 
+                    callback
+                );
+
+                function callback()
+                {
+                	var name = prompt("What menu did you want to display?");
+                    name = name.replace(/\s+/g, '-').toLowerCase();
+                    var header = prompt("What do you want the menu header to say?");
+                    var selected_text = getSel();
+                    QTags.insertContent("[menu menu_name='"+ name +"' header='"+ header +"']");
+                }
+            </script>
+        <?php
+    }
+}
+add_action("admin_print_footer_scripts", "shortcode_button_menu");
+
+
+function shortcode_button_staff(){
+    if(wp_script_is("quicktags"))
+    {
+        ?>
+            <script type="text/javascript">
+                
+                //this function is used to retrieve the selected text from the text editor
+                function getSel()
+                {
+                    var txtarea = document.getElementById("content");
+                    var start = txtarea.selectionStart;
+                    var finish = txtarea.selectionEnd;
+                    return txtarea.value.substring(start, finish);
+                }
+
+                QTags.addButton( 
+                    "staff_shortcode", 
+                    "Staff List", 
+                    callback
+                );
+
+                function callback()
+                {
+                	var name = prompt("What org group do you want to display?");
+                    name = name.replace(/\s+/g, '-').toLowerCase();
+                    var header = prompt("What do you want the staff header to say?");
+                    var selected_text = getSel();
+                    QTags.insertContent("[staff-list org_groups='"+ name +"' header='"+ header +"']");
+                }
+            </script>
+        <?php
+    }
+}
+add_action("admin_print_footer_scripts", "shortcode_button_staff");
+
 //Adds responsive class to images
 function image_tag_class($class) {
     $class .= ' img-fluid';
