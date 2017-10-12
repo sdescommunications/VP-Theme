@@ -1510,7 +1510,7 @@ class Publication extends CustomPostType {
 			<div class="card-block">
 				<h3 class="card-title"><?= $context['title'] ?></h3>
 				<hr />
-				<p class="card-text date">Posted <?= $context['date'] ?></p>
+				<p class="card-text pub-date">Posted <?= $context['date'] ?></p>
 				<p class="card-text">
 					<?= $context['content'] ?>
 				</p>				
