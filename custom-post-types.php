@@ -1109,6 +1109,8 @@ class News extends CustomPostType {
 
 			if ( $image_url ) {
 				$image_url = $image_url[0];
+			}else{
+				$image_url = get_stylesheet_directory_uri() . '/images/blank-news.png';
 			}
 
 			$strapline = get_post_meta( $object->post->ID, $prefix.'strapline', true );
@@ -1158,6 +1160,8 @@ class News extends CustomPostType {
 
 		if ( $image_url ) {
 			$image_url = $image_url[0];
+		}else{
+			$image_url = get_stylesheet_directory_uri() . '/images/blank.png';
 		}
 
 		$strapline = get_post_meta( $object->post->ID, $prefix.'strapline', true );
