@@ -374,7 +374,6 @@ abstract class CustomPostType{
 		$html = '<a href="'.get_permalink($object->ID).'">'.$object->post_title.'</a>';
 		return $html;
 	}
-
 }
 
 class Page extends CustomPostType {
@@ -1116,13 +1115,14 @@ class News extends CustomPostType {
 			$strapline = get_post_meta( $object->post->ID, $prefix.'strapline', true );
 			$url = get_post_meta( $object->post->ID, $prefix.'url', true );
 			
+			$home_url = strchr($url, 'today.ucf.edu') ? $url : get_permalink($post_id) ;
 
 			?>
 
 			<div class="media">
 				<img class="d-flex mr-3 float-left" src="<?= $image_url ?>" width="75px" alt="Generic placeholder image">
 				<div class="media-body">
-					<h4><a href="<?= get_permalink($post_id) ?>"><?= the_title() ?></a></h4>
+					<h4><a href="<?= $home_url ?>"><?= the_title() ?></a></h4>
 					<h5><?= $strapline ?></h5>
 				</div>
 			</div>
@@ -1167,6 +1167,8 @@ class News extends CustomPostType {
 		$strapline = get_post_meta( $object->post->ID, $prefix.'strapline', true );
 		$url = get_post_meta( $object->post->ID, $prefix.'url', true );
 
+		$read_more_url = strchr($url, 'http://today.ucf.edu') ? $url : get_permalink() ;
+
 		?>	
 
 		<div class="news" id="<?= $object->post->ID ?>">
@@ -1185,7 +1187,7 @@ class News extends CustomPostType {
 				<p class="datestamp">Posted <?= get_the_date( 'l, F j, Y @ g:i A', $object->post->ID ) ?></p>
 				<div class="news-summary">
 					<?= get_the_excerpt($object->post->ID) ?>					
-					<p><a class="" href="<?= get_permalink() ?>">Read More >></a></p>
+					<p><a class="" href="<?= $read_more_url ?>">Read More >></a></p>
 				</div>
 
 
