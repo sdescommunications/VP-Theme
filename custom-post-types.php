@@ -1142,7 +1142,7 @@ class News extends CustomPostType {
 		</div>
 
 		<?php endwhile; wp_reset_postdata(); ?>
-		<a class="btn btn-dark float-right mt-3" href="news">More News</a>
+		<a class="btn btn-dark float-right mt-3" href="sdes-news">More News</a>
 		<!-- show pagination here -->
 		<?php else : ?>
 			<!-- show 404 error here -->
