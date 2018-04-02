@@ -1153,7 +1153,7 @@ class News extends CustomPostType {
 	}
 
 	public function toHTMLFULL($location = null){
-		$currentPage = get_query_var('paged');
+		$currentPage = ( get_query_var('paged') ) ? get_query_var('paged') : 1;
 
 		$args = array(
 			'post_type' => array('news'),
@@ -1161,7 +1161,8 @@ class News extends CustomPostType {
 			'orderby' => 'date',
 			'order'   => 'DESC',
 			'posts_per_page' => 5,
-			'paged' => $currentPage
+			'paged' => $currentPage,
+			'page' => $currentPage
 			);
 		$object = new WP_Query($args);			
 
@@ -1223,7 +1224,7 @@ class News extends CustomPostType {
 	}
 
 	public function toHTMLMENU($location = null){
-		$currentPage = get_query_var('paged');
+		$currentPage = ( get_query_var('paged') ) ? get_query_var('paged') : 1;
 
 		$args = array(
 			'post_type' => array('news'),
@@ -1231,7 +1232,8 @@ class News extends CustomPostType {
 			'orderby' => 'date',
 			'order'   => 'DESC',
 			'posts_per_page' => 5,
-			'paged' => $currentPage
+			'paged' => $currentPage,
+			'page' => $currentPage
 			);
 		$object = new WP_Query($args);
 		ob_start();
