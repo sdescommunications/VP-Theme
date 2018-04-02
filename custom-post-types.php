@@ -1153,24 +1153,25 @@ class News extends CustomPostType {
 	}
 
 	public function toHTMLFULL($location = null){
+		$currentPage = get_query_var('paged');
+
 		$args = array(
 			'post_type' => array('news'),
 			'tag' => $location, 
 			'orderby' => 'date',
 			'order'   => 'DESC',
-			'posts_per_page' => -1,
+			'posts_per_page' => 5,
+			'paged' => $currentPage
 			);
 		$object = new WP_Query($args);			
 
-		$prefix     = 'news_';
+		$prefix = 'news_';
 
 		ob_start();
 
-		if ( $object->have_posts() ) :
-			while ( $object->have_posts() ) : $object->the_post();
+		if ( $object->have_posts() ) : while ( $object->have_posts() ) : $object->the_post();
 
-		$image_url 	= has_post_thumbnail( $object->post->ID ) ?
-		wp_get_attachment_image_src( get_post_thumbnail_id( $object->post->ID )) : null;
+		$image_url 	= has_post_thumbnail( $object->post->ID ) ? wp_get_attachment_image_src( get_post_thumbnail_id( $object->post->ID )) : null;
 
 		if ( $image_url ) {
 			$image_url = $image_url[0];
@@ -1178,8 +1179,8 @@ class News extends CustomPostType {
 			$image_url = get_stylesheet_directory_uri() . '/images/blank.png';
 		}
 
-		$strapline = get_post_meta( $object->post->ID, $prefix.'strapline', true );
-		$url = get_post_meta( $object->post->ID, $prefix.'url', true );
+		$strapline = get_post_meta( $object->post->ID, $prefix . 'strapline', true );
+		$url = get_post_meta( $object->post->ID, $prefix . 'url', true );
 
 		$read_more_url = strchr($url, 'today.ucf.edu') ? $url : get_permalink() ;
 
@@ -1203,13 +1204,16 @@ class News extends CustomPostType {
 					<?= get_the_excerpt($object->post->ID) ?>					
 					<p><a class="" href="<?= $read_more_url ?>">Read More >></a></p>
 				</div>
-
-
 			</div>
 		</div>
 
 		<?php endwhile; wp_reset_postdata(); ?>
 		<!-- show pagination here -->
+		<br>
+		<div class="text-center lead" >
+			<?= paginate_links(array('total' => $object->max_num_pages)) ?>
+		</div>
+		
 		<?php else : ?>
 			<!-- show 404 error here -->
 		<?php endif; ?>
@@ -1219,12 +1223,15 @@ class News extends CustomPostType {
 	}
 
 	public function toHTMLMENU($location = null){
+		$currentPage = get_query_var('paged');
+
 		$args = array(
 			'post_type' => array('news'),
 			'tag' => $location, 
 			'orderby' => 'date',
 			'order'   => 'DESC',
-			'posts_per_page' => -1,
+			'posts_per_page' => 5,
+			'paged' => $currentPage
 			);
 		$object = new WP_Query($args);
 		ob_start();
