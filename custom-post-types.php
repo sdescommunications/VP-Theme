@@ -1108,7 +1108,7 @@ class News extends CustomPostType {
 			'tag' => $location, 
 			'orderby' => 'date',
 			'order'   => 'DESC',
-			'posts_per_page' => '3',
+			'posts_per_page' => '4',
 			);
 		$object = new WP_Query($args);			
 
