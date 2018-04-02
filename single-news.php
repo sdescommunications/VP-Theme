@@ -5,8 +5,10 @@
 	wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID), 'full', false ) : null;
 
 	if ( $image_url ) {
-		$image_url = $image_url[0];
-	}
+			$image_url = $image_url[0];
+		}else{
+			$image_url = get_stylesheet_directory_uri() . '/images/blank.png';
+		}
 
 	$url		= get_post_meta( $post->ID, 'news_url', true);
 	$strapline 	= get_post_meta( $post->ID, 'news_strapline', true );
@@ -34,7 +36,7 @@
 					</p>							
 				</div>
 			</div>
-			<a class="btn btn-callout float-right mt-3" href="<?= site_url() ?>/news">&lt; Back to News</a>
+			<a class="btn btn-callout float-right mt-3" href="<?= wp_get_referer() ?>">&lt; Back to News</a>
 		</article>
 	</section>
 </div>
