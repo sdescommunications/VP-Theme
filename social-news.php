@@ -58,7 +58,7 @@
 
 .ucf-social-links .btn-sm {
 
-    padding: 2px 8px
+    padding: 5px 8px
 }
 
 .ucf-social-links .btn-md {
