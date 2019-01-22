@@ -906,7 +906,7 @@ class Department extends CustomPostType{
 			);
 	}
 
-	public function toHTML() {				
+	public function toHTML( $args ) {				
 
 		$args = array(
 			'post_type' => array('department'),
@@ -1525,7 +1525,7 @@ class Publication extends CustomPostType {
 		$context['title'] = get_the_title( $post_object );
 		$context['thumbnail'] = get_the_post_thumbnail( $post_object, null, array('class' => 'card-img-top img-fluid') );
 		$context['content'] = wpautop($post_object->post_content);
-		$context['date'] = get_the_date( 'F j, Y', $object->post->ID );
+		
 		$context['url'] = get_post_meta( $post_object->ID, 'publication_url', true );
 		return static::render_to_html( $context );
 	}
@@ -1539,14 +1539,13 @@ class Publication extends CustomPostType {
 			<div class="card-block">
 				<h3 class="card-title"><?= $context['title'] ?></h3>
 				<hr />
-				<p class="card-text pub-date">Posted <?= $context['date'] ?></p>
+				<p class="card-text pub-date">Posted <?= get_the_date( 'F j, Y', $context['Post_ID'] ) ?></p>
 				<p class="card-text">
 					<?= $context['content'] ?>
 				</p>				
 			</div>
 			<a class="btn btn-callout btn-block" href="<?= $context['url'] ?>">Read on Issuu</a>		
 		</div>
-
 
 		<?php
 
