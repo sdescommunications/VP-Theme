@@ -906,7 +906,7 @@ class Department extends CustomPostType{
 			);
 	}
 
-	public function toHTML() {				
+	public function toHTML( $args ) {				
 
 		$args = array(
 			'post_type' => array('department'),
@@ -1152,38 +1152,63 @@ class News extends CustomPostType {
 		return ob_get_clean();
 	}
 
-	public function toHTMLFULL($location = null){
+	public function toHTMLFULL($location = null, $archive = False){
 		$currentPage = ( get_query_var('paged') ) ? get_query_var('paged') : 1;
 
-		$args = array(
-			'post_type' => array('news'),
-			'tag' => $location, 
-			'orderby' => 'date',
-			'order'   => 'DESC',
-			'posts_per_page' => 5,
-			'paged' => $currentPage,
-			'page' => $currentPage
+		if (!$archive) {
+			$args = array(
+				'post_type' => array('news'),
+				'tag' => $location, 
+				'orderby' => 'date',
+				'order'   => 'DESC',
+				'posts_per_page' => 5,
+				'paged' => $currentPage,
+				'page' => $currentPage,
+				'date_query' => array(
+					array(
+						'after' => '1 year ago',
+					)
+				)
 			);
+		} else {
+			$args = array(
+				'post_type' => array('news'),
+				'tag' => $location, 
+				'orderby' => 'date',
+				'order'   => 'DESC',
+				'posts_per_page' => 5,
+				'paged' => $currentPage,
+				'page' => $currentPage,
+				'date_query' => array(
+					array(
+						'before' => '1 year ago',
+					)
+				)
+			);
+		}		
+
+
 		$object = new WP_Query($args);			
 
 		$prefix = 'news_';
 
 		ob_start();
-
+		
 		if ( $object->have_posts() ) : while ( $object->have_posts() ) : $object->the_post();
 
-		$image_url 	= has_post_thumbnail( $object->post->ID ) ? wp_get_attachment_image_src( get_post_thumbnail_id( $object->post->ID )) : null;
 
-		if ( $image_url ) {
-			$image_url = $image_url[0];
-		}else{
-			$image_url = get_stylesheet_directory_uri() . '/images/blank.png';
-		}
+			$image_url 	= has_post_thumbnail( $object->post->ID ) ? wp_get_attachment_image_src( get_post_thumbnail_id( $object->post->ID )) : null;
 
-		$strapline = get_post_meta( $object->post->ID, $prefix . 'strapline', true );
-		$url = get_post_meta( $object->post->ID, $prefix . 'url', true );
+			if ( $image_url ) {
+				$image_url = $image_url[0];
+			}else{
+				$image_url = get_stylesheet_directory_uri() . '/images/blank.png';
+			}
 
-		$read_more_url = strchr($url, 'today.ucf.edu') ? $url : get_permalink() ;
+			$strapline = get_post_meta( $object->post->ID, $prefix . 'strapline', true );
+			$url = get_post_meta( $object->post->ID, $prefix . 'url', true );
+
+			$read_more_url = strchr($url, 'today.ucf.edu') ? $url : get_permalink() ;	
 
 		?>	
 
@@ -1223,18 +1248,41 @@ class News extends CustomPostType {
 		return ob_get_clean();
 	}
 
-	public function toHTMLMENU($location = null){
+	public function toHTMLMENU($location = null, $archive = False){
 		$currentPage = ( get_query_var('paged') ) ? get_query_var('paged') : 1;
 
-		$args = array(
-			'post_type' => array('news'),
-			'tag' => $location, 
-			'orderby' => 'date',
-			'order'   => 'DESC',
-			'posts_per_page' => 5,
-			'paged' => $currentPage,
-			'page' => $currentPage
+		if (!$archive) {
+			$args = array(
+				'post_type' => array('news'),
+				'tag' => $location, 
+				'orderby' => 'date',
+				'order'   => 'DESC',
+				'posts_per_page' => 5,
+				'paged' => $currentPage,
+				'page' => $currentPage,
+				'date_query' => array(
+					array(
+						'after' => '1 year ago',
+					)
+				)
 			);
+		} else {
+			$args = array(
+				'post_type' => array('news'),
+				'tag' => $location, 
+				'orderby' => 'date',
+				'order'   => 'DESC',
+				'posts_per_page' => 5,
+				'paged' => $currentPage,
+				'page' => $currentPage,
+				'date_query' => array(
+					array(
+						'before' => '1 year ago',
+					)
+				)
+			);
+		}		
+
 		$object = new WP_Query($args);
 		ob_start();
 		?>
@@ -1261,6 +1309,7 @@ class News extends CustomPostType {
 		<?php
 		return ob_get_clean();
 	}
+
 }
 
 class FAQ extends CustomPostType {
@@ -1525,7 +1574,7 @@ class Publication extends CustomPostType {
 		$context['title'] = get_the_title( $post_object );
 		$context['thumbnail'] = get_the_post_thumbnail( $post_object, null, array('class' => 'card-img-top img-fluid') );
 		$context['content'] = wpautop($post_object->post_content);
-		$context['date'] = get_the_date( 'F j, Y', $object->post->ID );
+		
 		$context['url'] = get_post_meta( $post_object->ID, 'publication_url', true );
 		return static::render_to_html( $context );
 	}
@@ -1539,14 +1588,13 @@ class Publication extends CustomPostType {
 			<div class="card-block">
 				<h3 class="card-title"><?= $context['title'] ?></h3>
 				<hr />
-				<p class="card-text pub-date">Posted <?= $context['date'] ?></p>
+				<p class="card-text pub-date">Posted <?= get_the_date( 'F j, Y', $context['Post_ID'] ) ?></p>
 				<p class="card-text">
 					<?= $context['content'] ?>
 				</p>				
 			</div>
-			<a class="btn btn-callout btn-block" href="<?= $context['url'] ?>">Read on Issuu</a>		
+			<a class="btn btn-callout btn-block" href="<?= $context['url'] ?>">View</a>		
 		</div>
-
 
 		<?php
 

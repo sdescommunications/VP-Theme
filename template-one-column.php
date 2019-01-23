@@ -39,6 +39,20 @@ if ( have_posts() ) {
 					</article>
 				</section>
 
+			<?php } elseif (is_page('Archive')){ ?>
+
+				<h1><?php the_title();?></h1>
+				<hr />
+
+				<section>
+					<aside>
+						<?= News::toHTMLMENU(null, True); ?>
+					</aside>
+					<article>
+						<?= News::toHTMLFULL(null, True); ?>
+					</article>
+				</section>
+
 			<?php }else{ ?>
 			<h1><?php the_title();?></h1>
 			<hr />
