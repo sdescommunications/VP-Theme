@@ -1152,38 +1152,63 @@ class News extends CustomPostType {
 		return ob_get_clean();
 	}
 
-	public function toHTMLFULL($location = null){
+	public function toHTMLFULL($location = null, $archive = False){
 		$currentPage = ( get_query_var('paged') ) ? get_query_var('paged') : 1;
 
-		$args = array(
-			'post_type' => array('news'),
-			'tag' => $location, 
-			'orderby' => 'date',
-			'order'   => 'DESC',
-			'posts_per_page' => 5,
-			'paged' => $currentPage,
-			'page' => $currentPage
+		if (!$archive) {
+			$args = array(
+				'post_type' => array('news'),
+				'tag' => $location, 
+				'orderby' => 'date',
+				'order'   => 'DESC',
+				'posts_per_page' => 5,
+				'paged' => $currentPage,
+				'page' => $currentPage,
+				'date_query' => array(
+					array(
+						'after' => '1 year ago',
+					)
+				)
 			);
+		} else {
+			$args = array(
+				'post_type' => array('news'),
+				'tag' => $location, 
+				'orderby' => 'date',
+				'order'   => 'DESC',
+				'posts_per_page' => 5,
+				'paged' => $currentPage,
+				'page' => $currentPage,
+				'date_query' => array(
+					array(
+						'before' => '1 year ago',
+					)
+				)
+			);
+		}		
+
+
 		$object = new WP_Query($args);			
 
 		$prefix = 'news_';
 
 		ob_start();
-
+		
 		if ( $object->have_posts() ) : while ( $object->have_posts() ) : $object->the_post();
 
-		$image_url 	= has_post_thumbnail( $object->post->ID ) ? wp_get_attachment_image_src( get_post_thumbnail_id( $object->post->ID )) : null;
 
-		if ( $image_url ) {
-			$image_url = $image_url[0];
-		}else{
-			$image_url = get_stylesheet_directory_uri() . '/images/blank.png';
-		}
+			$image_url 	= has_post_thumbnail( $object->post->ID ) ? wp_get_attachment_image_src( get_post_thumbnail_id( $object->post->ID )) : null;
 
-		$strapline = get_post_meta( $object->post->ID, $prefix . 'strapline', true );
-		$url = get_post_meta( $object->post->ID, $prefix . 'url', true );
+			if ( $image_url ) {
+				$image_url = $image_url[0];
+			}else{
+				$image_url = get_stylesheet_directory_uri() . '/images/blank.png';
+			}
 
-		$read_more_url = strchr($url, 'today.ucf.edu') ? $url : get_permalink() ;
+			$strapline = get_post_meta( $object->post->ID, $prefix . 'strapline', true );
+			$url = get_post_meta( $object->post->ID, $prefix . 'url', true );
+
+			$read_more_url = strchr($url, 'today.ucf.edu') ? $url : get_permalink() ;	
 
 		?>	
 
@@ -1223,18 +1248,41 @@ class News extends CustomPostType {
 		return ob_get_clean();
 	}
 
-	public function toHTMLMENU($location = null){
+	public function toHTMLMENU($location = null, $archive = False){
 		$currentPage = ( get_query_var('paged') ) ? get_query_var('paged') : 1;
 
-		$args = array(
-			'post_type' => array('news'),
-			'tag' => $location, 
-			'orderby' => 'date',
-			'order'   => 'DESC',
-			'posts_per_page' => 5,
-			'paged' => $currentPage,
-			'page' => $currentPage
+		if (!$archive) {
+			$args = array(
+				'post_type' => array('news'),
+				'tag' => $location, 
+				'orderby' => 'date',
+				'order'   => 'DESC',
+				'posts_per_page' => 5,
+				'paged' => $currentPage,
+				'page' => $currentPage,
+				'date_query' => array(
+					array(
+						'after' => '1 year ago',
+					)
+				)
 			);
+		} else {
+			$args = array(
+				'post_type' => array('news'),
+				'tag' => $location, 
+				'orderby' => 'date',
+				'order'   => 'DESC',
+				'posts_per_page' => 5,
+				'paged' => $currentPage,
+				'page' => $currentPage,
+				'date_query' => array(
+					array(
+						'before' => '1 year ago',
+					)
+				)
+			);
+		}		
+
 		$object = new WP_Query($args);
 		ob_start();
 		?>
@@ -1261,6 +1309,7 @@ class News extends CustomPostType {
 		<?php
 		return ob_get_clean();
 	}
+
 }
 
 class FAQ extends CustomPostType {
@@ -1544,7 +1593,7 @@ class Publication extends CustomPostType {
 					<?= $context['content'] ?>
 				</p>				
 			</div>
-			<a class="btn btn-callout btn-block" href="<?= $context['url'] ?>">Read on Issuu</a>		
+			<a class="btn btn-callout btn-block" href="<?= $context['url'] ?>">View</a>		
 		</div>
 
 		<?php
