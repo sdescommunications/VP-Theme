@@ -116,11 +116,12 @@ function sc_calendar($atts){
 		'cal_id'	=> "",
 		'action' 	=> "",
 		'count' 	=> "",
+		'sdes'		=> "",
 		), $atts));
 
 	$limit 	= $count;
 	$url 	= 'https://events.ucf.edu/calendar/';
-	$json 	= $url.$cal_id.'/sdes/'.$action.'/feed.json';   
+	$json 	= (empty($sdes)) ? $url.$cal_id.'/sdes/'.$action.'/feed.json' : $url.$cal_id.'/'.$action.'/feed.json';   
 
 	$ch = curl_init();
 	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
@@ -131,33 +132,39 @@ function sc_calendar($atts){
 
 	$obj = json_decode($result);
 
-	foreach ($obj as $field ) {
-		if ($x++ < $limit) {
+	if(!empty($obj)){
+		foreach ($obj as $field ) {
+			if ($x++ < $limit) {
 
-			$date = strtotime($field->starts);
+				$date = strtotime($field->starts);
 
-			?>
-			<div class="row event">
-				<div class="col-sm-3 date">
-					<div class="month"><?= date('M', $date) ?></div>
-					<div class="day"><?= date('d', $date) ?></div>
+				?>
+				<div class="row event">
+					<div class="col-sm-3 date">
+						<div class="month"><?= date('M', $date) ?></div>
+						<div class="day"><?= date('d', $date) ?></div>
+					</div>
+					<div class="col-sm-8 description">
+						<h3 class="event-title"><a href="<?= $field->url ?>"><?= substr($field->title, 0, 17) ?> ...</a></h3>
+						<h4 class="location"><a href="<?= $field->location_url ?>"><?= $field->location ?></a></h4>
+					</div>
 				</div>
-				<div class="col-sm-8 description">
-					<h3 class="event-title"><a href="<?= $field->url ?>"><?= substr($field->title, 0, 17) ?> ...</a></h3>
-					<h4 class="location"><a href="<?= $field->location_url ?>"><?= $field->location ?></a></h4>
-				</div>
-			</div>
-			<?php
+				<?php
 
-		}else{
-			break;
-		}		
-	}
+			}else{
+				break;
+			}		
+		}
+	}else{
+		?>
+			<h3><em>There are currently no upcoming events. Please check back later.</em></h3>
+		<?php
+	}	
 
 	?>
 
 	<p>
-		<a class="btn btn-callout float-right" href="<?= $url.$cal_id ?>/sdes/<?= $action ?>/">More Events</a>
+		<a class="btn btn-callout float-right" href="<?= (empty($sdes)) ? $url.$cal_id.'/sdes/'.$action : $url.$cal_id.'/'.$action ?>">More Events</a>
 	</p>
 
 	<?php
