@@ -120,8 +120,8 @@ function sc_calendar($atts){
 		), $atts));
 
 	$limit 	= $count;
-	$url 	= 'https://events.ucf.edu/calendar/';
-	$json 	= (empty($sdes)) ? $url.$cal_id.'/sdes/'.$action.'/feed.json' : $url.$cal_id.'/'.$action.'/feed.json';   
+	$url 	= 'https://events.ucf.edu/';
+	$json 	= (empty($sdes)) ? $url.'calendar/'.$cal_id.'/sdes/'.$action.'/feed.json' : $url.'?calendar_id='.$cal_id.'&upcoming=upcoming&format=json';   
 
 	$ch = curl_init();
 	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
@@ -164,7 +164,7 @@ function sc_calendar($atts){
 	?>
 
 	<p>
-		<a class="btn btn-callout float-right" href="<?= (empty($sdes)) ? $url.$cal_id.'/sdes/'.$action : $url.$cal_id.'/'.$action ?>">More Events</a>
+		<a class="btn btn-callout float-right" href="<?= (empty($sdes)) ? $url.'calendar/'.$cal_id.'/sdes/'.$action : $url.'?calendar_id='.$cal_id ?>">More Events</a>
 	</p>
 
 	<?php
