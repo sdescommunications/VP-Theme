@@ -141,6 +141,9 @@ section {
           display: block;
           content: "";
           clear: both; } }
+section article .event{
+  clear:none; 
+}
 
 header .header-content {
   position: relative;
