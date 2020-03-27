@@ -15,6 +15,10 @@ $(document).ready(function() {
         	$side.hide();
             $rep.show();
             $image.show(); 
+        }else if($(this).val() == 'template-static.php'){
+            $side.hide();
+            $rep.hide();
+            $image.show(); 
         }else {
         	$side.hide();
         	$rep.hide();
