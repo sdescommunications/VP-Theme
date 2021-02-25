@@ -906,15 +906,15 @@ class Department extends CustomPostType{
 			);
 	}
 
-	public function toHTML( ) {				
+	public function toHTML($args=null) {				
 
-		$args = array(
+		$arg = array(
 			'post_type' => array('department'),
 			'orderby' => 'title',
 			'order'   => 'ASC',
 			'posts_per_page' => -1,
 			);
-		$object = new WP_Query($args);			
+		$object = new WP_Query($arg);			
 		
 		$prefix     = 'department_';
 		$pre 		= 'dep_';
