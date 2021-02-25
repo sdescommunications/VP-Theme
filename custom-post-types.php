@@ -906,7 +906,7 @@ class Department extends CustomPostType{
 			);
 	}
 
-	public function toHTML( $args ) {				
+	public function toHTML( ) {				
 
 		$args = array(
 			'post_type' => array('department'),
