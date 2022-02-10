@@ -73,7 +73,7 @@
 			<div class="header-image">
 				<video id="video" autoplay="" preload="auto" loop="" muted="" class="hidden-md-down">
 					<!-- <source src="vid/video.webm" type="video/webm" /> -->
-					<source src="http://assets.sdes.ucf.edu/video/003.mp4" type="video/mp4" />
+					<source src="https://assets.sdes.ucf.edu/video/003.mp4" type="video/mp4" />
 					Your browser does not support the video tag. Please upgrade your browser.
 				</video>
 			</div>
