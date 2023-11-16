@@ -1109,6 +1109,10 @@ class News extends CustomPostType {
 			'orderby' => 'date',
 			'order'   => 'DESC',
 			'posts_per_page' => '4',
+			'date_query' => array(
+					array(
+						'before' => '1 year ago',
+					)
 			);
 		$object = new WP_Query($args);			
 
