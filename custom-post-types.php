@@ -1113,6 +1113,7 @@ class News extends CustomPostType {
 					array(
 						'before' => '1 year ago',
 					)
+				)					
 			);
 		$object = new WP_Query($args);			
 
