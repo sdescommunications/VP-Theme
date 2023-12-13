@@ -805,6 +805,7 @@ function get_featured_image_url( $post ) {
  * @author Jo Greybill
  * */
 function get_header_styles() {
+
 	$options = get_option( THEME_OPTIONS_NAME );
 	$id = $options['bootstrap_menu_styles'];
 
@@ -1180,8 +1181,9 @@ function sc_object_list( $attrs, $options = array() ) {
  * @author Jared Lang
  * */
 function set_defaults_for_options() {
-	define('THEME_OPTIONS_NAME', '');
 
+	define('THEME_OPTIONS_NAME', '');
+	
 	$values  = get_option( THEME_OPTIONS_NAME );
 	if ( $values === False or is_string( $values ) ) {
 		add_option( THEME_OPTIONS_NAME );
