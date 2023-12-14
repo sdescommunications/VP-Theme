@@ -250,7 +250,8 @@ header .header-break {
           .navbar-vp .navbar-nav .nav-item .subtitle {
             font-size: 14px; } }
       .navbar-vp .navbar-nav .nav-item a {
-        color: #292b2c; }
+        color: #292b2c;
+        font-weight: bold; }
       .navbar-vp .navbar-nav .nav-item .subtitle {
         font-family: Georgia, sans-serif !important;
         color: #636c72;
