@@ -67,7 +67,7 @@ class Config {
 		);
 		$attr = array_merge( $default, $attr );
 
-		$is_admin = ( is_admin() or is_login() );
+		$is_admin = ( is_admin() or is_logins() );
 
 		if (
 			( $attr['admin'] and $is_admin ) or
@@ -108,7 +108,7 @@ class Config {
 		);
 		$attr = array_merge( $default, $attr );
 
-		$is_admin = ( is_admin() or is_login() );
+		$is_admin = ( is_admin() or is_logins() );
 
 		if (
 			( $attr['admin'] and $is_admin ) or
@@ -805,6 +805,7 @@ function get_featured_image_url( $post ) {
  * @author Jo Greybill
  * */
 function get_header_styles() {
+
 	$options = get_option( THEME_OPTIONS_NAME );
 	$id = $options['bootstrap_menu_styles'];
 
@@ -976,7 +977,7 @@ function get_search_results(
  * @return boolean
  * @author Jared Lang
  * */
-function is_login() {
+function is_logins() {
 	return in_array( $GLOBALS['pagenow'], array(
 			'wp-login.php',
 			'wp-register.php',
@@ -1180,6 +1181,9 @@ function sc_object_list( $attrs, $options = array() ) {
  * @author Jared Lang
  * */
 function set_defaults_for_options() {
+
+	define('THEME_OPTIONS_NAME', '');
+	
 	$values  = get_option( THEME_OPTIONS_NAME );
 	if ( $values === False or is_string( $values ) ) {
 		add_option( THEME_OPTIONS_NAME );
